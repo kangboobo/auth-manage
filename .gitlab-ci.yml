@@ -1,0 +1,30 @@
+image: maven:3.5.4-jdk-8-alpine
+
+cache:
+  paths:
+    - .m2/repository
+
+
+variables:
+  #Sonar token get form sonar admin.
+  SONAR_PROJECT_KEY: "fast-engine-platform"
+  SONAR_TOKEN: "ddf1913e532bf3a07bf1a46185d4d365b6fab341"
+  #Sonar url.
+  SONAR_HOST_URL: "http://sonar.coolcollege.cn:9001"
+  # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
+  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  # As of Maven 3.3.0 instead of this you may define these options in `.mvn/maven.config` so the same config is used
+  # when running from the command line.
+  # `installAtEnd` and `deployAtEnd` are only effective with recent version of the corresponding plugins.
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true -Dmaven.test.skip=true"
+
+  SONAR_CLI_OPTS: "sonar:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
+
+sonarqube-check:
+  script:
+    - 'mvn $MAVEN_CLI_OPTS clean verify $SONAR_CLI_OPTS'
+  allow_failure: true
+  only:
+    - merge_requests
+    - master

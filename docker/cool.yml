@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  enterprise:
+    image: harbor.coolcollege.cn/test/enterprise_t1:2021060903
+
+    container_name: enterprise-api
+    environment:
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "12200:12200" # RPC
+      - "5005:5005"  # Debug

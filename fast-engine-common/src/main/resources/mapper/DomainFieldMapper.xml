@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.coolcollege.fast.storage.mapper.DomainFieldMapper">
+
+    <resultMap id="BaseResultMap" type="cn.coolcollege.fast.storage.entity.DomainFieldDo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="domain_id" jdbcType="VARCHAR" property="domainId"/>
+        <result column="field" jdbcType="VARCHAR" property="field"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="value_type" jdbcType="VARCHAR" property="valueType"/>
+        <result column="value_enum" jdbcType="VARCHAR" property="valueEnum"/>
+        <result column="analyzer" jdbcType="TINYINT" property="analyzer"/>
+        <result column="newly_add" jdbcType="BOOLEAN" property="newlyAdd"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <update id="updateDomainFieldNewly" parameterType="java.util.List">
+        <!-- 批量更新第一种方法，通过接收传进来的参数list进行循环着组装sql -->
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE
+            fast_engine_domain_field t
+            <set>
+                t.newly_add = 0
+            </set>
+            WHERE
+            t.id = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="getNewlyDomainFieldList" parameterType="java.lang.String" resultType="cn.coolcollege.fast.storage.entity.DomainFieldDo">
+		SELECT
+			 t.id,
+		     t.field,
+		     t.value_type as valueType,
+		     t.analyzer
+		FROM
+		    fast_engine_domain_field t
+		WHERE
+			t.newly_add = 1
+			and
+			t.domain_id = #{domainId,jdbcType = VARCHAR}
+	</select>
+
+    <select id="getFieldNameByDomainId" parameterType="java.lang.String" resultType="java.lang.String" >
+        SELECT t.field FROM  fast_engine_domain_field t where t.domain_id = #{domainId,jdbcType = VARCHAR}
+    </select>
+</mapper>

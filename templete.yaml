@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: SVC_NAME
+  name: SVC_NAME
+  namespace: NS_NAME
+spec:
+  replicas: RC_NUM
+  selector:
+    matchLabels:
+      app: SVC_NAME
+  template:
+    metadata:
+      labels:
+        app: SVC_NAME
+    spec:
+      imagePullSecrets:
+        - name: admin-token-cool
+      containers:
+      - image: IMAGE_URL
+        name: SVC_NAME
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: data-log
+          mountPath: /data/log
+
+      volumes: 
+      - name: data-log
+        hostPath:
+          path: /data/pod_log
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: SVC_NAME
+  name: SVC_NAME
+  namespace: NS_NAME
+spec:
+  ports:
+  - port: CON_PORT
+    protocol: TCP
+    targetPort: CLU_PORT
+  selector:
+    app: SVC_NAME
+  type: ClusterIP #NodePort/ClusterIP
