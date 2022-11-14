@@ -1,6 +1,5 @@
 package cn.coolcollege.fast.storage.mapper;
 
-import cn.coolcollege.fast.storage.entity.dao.SysAppBaseRole;
 import cn.coolcollege.fast.storage.entity.dao.SysRoleMenu;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

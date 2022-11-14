@@ -1,5 +1,6 @@
 package cn.coolcollege.fast.authService.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
+import org.assertj.core.util.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +23,11 @@ import cn.coolcollege.fast.constants.BaseResponse;
 import cn.coolcollege.fast.constants.Constants;
 import cn.coolcollege.fast.exception.AuthManageErrConstant;
 import cn.coolcollege.fast.storage.entity.dao.SysApp;
-import cn.coolcollege.fast.storage.entity.dao.SysAppBaseRole;
 import cn.coolcollege.fast.storage.entity.dao.SysBase;
 import cn.coolcollege.fast.storage.entity.dao.SysRole;
 import cn.coolcollege.fast.storage.entity.dao.SysRoleMenu;
 import cn.coolcollege.fast.storage.entity.vo.BaseAuthVo;
 import cn.coolcollege.fast.storage.entity.vo.SysRoleVo;
-import cn.coolcollege.fast.storage.mapper.SysAppBaseRoleMapper;
 import cn.coolcollege.fast.storage.mapper.SysRoleMapper;
 import cn.coolcollege.fast.storage.mapper.SysRoleMenuMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -47,9 +47,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     @Autowired
     private SysRoleMenuMapper roleMenuMapper;
-
-    @Autowired
-    private SysAppBaseRoleMapper appBaseRoleMapper;
 
     @Autowired
     private ISysAppService sysAppService;
@@ -126,9 +123,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
                     log.error("insertOrUpdateRole::roleId error return");
                     throw new IllegalArgumentException();
                 }
-                // 新增应用-基地-角色关联关系
-                addAppBaseRoleList(sysRoleVo.getSysApp().getId(), sysRoleVo.getSysBaseList(), roleId);
-                // 新增角色-关联关系
+                // 新增角色-菜单关联关系
                 if (CollectionUtils.isNotEmpty(sysRoleVo.getMenuIds())) {
                     addRoleMenuList(sysRoleVo.getMenuIds(), roleId);
                 }
@@ -137,10 +132,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
                 sysRole.setUpdateUser("");
                 sysRole.setUpdateTime(System.currentTimeMillis());
                 sysRoleMapper.updateByPrimaryKeySelective(sysRole);
-                // 删除该角色关联的应用-基地关系
-                deleteAppBaseRoleMappingByRoleId(sysRoleVo.getId());
-                // 再新增该角色关联的应用-基地关系
-                addAppBaseRoleList(sysRoleVo.getSysApp().getId(), sysRoleVo.getSysBaseList(), sysRoleVo.getId());
                 // 删除该角色和菜单的关联关系
                 deleteRoleMenuMappingByRoleId(sysRoleVo.getId());
                 // 再新增角色和菜单的关联关系
@@ -170,8 +161,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
         sysRole.setUpdateUser("");
         try {
             sysRoleMapper.updateByPrimaryKeySelective(sysRole);
-            // 删除应用-基地-角色关联关系
-            deleteAppBaseRoleMappingByRoleId(roleId);
             // 删除角色-菜单关联关系表
             deleteRoleMenuMappingByRoleId(roleId);
         } catch (Exception e) {
@@ -184,6 +173,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
     private SysRole convertParamsToSysRole(SysRoleVo sysRoleVo) {
         SysRole sysRole = new SysRole();
         sysRole.setId(sysRoleVo.getId());
+        sysRole.setAppId(sysRoleVo.getAppId());
+        sysRole.setBaseIdStr(sysRoleVo.getBaseIdStr());
         sysRole.setRoleName(sysRoleVo.getRoleName());
         sysRole.setRoleKey(sysRoleVo.getRoleKey());
         sysRole.setRoleSort(sysRoleVo.getRoleSort());
@@ -196,12 +187,22 @@ public class SysRoleServiceImpl implements ISysRoleService {
         sysRole.setDeptIds(sysRoleVo.getDeptIds());
         sysRole.setPermissions(sysRoleVo.getPermissions());
         sysRole.setRemark(sysRoleVo.getRemark());
+        if (Objects.nonNull(sysRoleVo.getSysApp())) {
+            sysRole.setAppId(sysRoleVo.getSysApp().getId());
+        }
+        if (CollectionUtils.isNotEmpty(sysRoleVo.getSysBaseList())) {
+            String baseIdStr = sysRoleVo.getSysBaseList().stream().map(v -> String.valueOf(v.getId()))
+                .collect(Collectors.joining(Constants.COMMA));
+            sysRole.setBaseIdStr(baseIdStr);
+        }
         return sysRole;
     }
 
     private SysRoleVo convertParamsToSysRoleVo(SysRole sysRole) {
         SysRoleVo sysRoleVo = new SysRoleVo();
         sysRoleVo.setId(sysRole.getId());
+        sysRoleVo.setAppId(sysRole.getAppId());
+        sysRoleVo.setBaseIdStr(sysRole.getBaseIdStr());
         sysRoleVo.setRoleName(sysRole.getRoleName());
         sysRoleVo.setRoleKey(sysRole.getRoleKey());
         sysRoleVo.setRoleSort(sysRole.getRoleSort());
@@ -217,18 +218,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
         return sysRoleVo;
     }
 
-    private void addAppBaseRoleList(Long appId, List<BaseAuthVo> baseAuthVoList, Long roleId) {
-        // 新增应用-基地-角色关联关系
-        List<SysAppBaseRole> appBaseRoleList = Lists.newArrayList();
-        baseAuthVoList.forEach(v -> {
-            SysAppBaseRole appBaseRole = new SysAppBaseRole();
-            appBaseRole.setAppId(appId);
-            appBaseRole.setBaseId(v.getId());
-            appBaseRole.setRoleId(roleId);
-            appBaseRoleList.add(appBaseRole);
-        });
-    }
-
     private void addRoleMenuList(List<Long> menuIds, Long roleId) {
         // 新增应用-基地-角色关联关系
         List<SysRoleMenu> roleMenuList = Lists.newArrayList();
@@ -241,12 +230,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
         roleMenuMapper.insertList(roleMenuList);
     }
 
-    private void deleteAppBaseRoleMappingByRoleId(Long roleId) {
-        Example appBaseRoleExample = new Example(SysAppBaseRole.class);
-        appBaseRoleExample.createCriteria().andEqualTo("roleId", roleId);
-        appBaseRoleMapper.deleteByExample(appBaseRoleExample);
-    }
-
     private void deleteRoleMenuMappingByRoleId(Long roleId) {
         Example roleMenuExample = new Example(SysRoleMenu.class);
         roleMenuExample.createCriteria().andEqualTo("roleId", roleId);
@@ -255,21 +238,21 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     private List<SysRoleVo> querySysRoleVos(List<SysRole> sysRoleList) {
         List<SysRoleVo> sysRoleVos = Lists.newArrayList();
-        List<Long> roleIds = sysRoleList.stream().map(SysRole::getId).collect(Collectors.toList());
-        // 查询角色对应的应用-基地对应关系
-        List<SysAppBaseRole> appBaseRoleList = appBaseRoleMapper.selectAppBaseRoleList(roleIds);
-
-        Map<Long, List<SysAppBaseRole>> appBaseRoleMap =
-                appBaseRoleList.stream().collect(Collectors.groupingBy(SysAppBaseRole::getRoleId));
-        Set<Long> appIds = appBaseRoleList.stream().map(SysAppBaseRole::getAppId).collect(Collectors.toSet());
-        Set<Long> baseIds = appBaseRoleList.stream().map(SysAppBaseRole::getBaseId).collect(Collectors.toSet());
+        Set<Long> appIds = sysRoleList.stream().map(SysRole::getAppId).collect(Collectors.toSet());
+        Set<Long> baseIds = Sets.newHashSet();
+        sysRoleList.forEach(sysRole -> {
+            if (StringUtils.isNotBlank(sysRole.getBaseIdStr()) && sysRole.getBaseIdStr().contains(Constants.COMMA)) {
+                baseIds.addAll(Arrays.stream(sysRole.getBaseIdStr().split(Constants.COMMA)).map(Long::parseLong)
+                    .collect(Collectors.toSet()));
+            }
+        });
         // 根据appId集合查询应用名称
         List<SysApp> sysApps = sysAppService.selectSysAppList(Lists.newArrayList(appIds));
         List<SysBase> sysBases = sysBaseService.selectSysBaseList(Lists.newArrayList(baseIds));
         Map<Long, String> appIdNameMap = null;
         if (CollectionUtils.isNotEmpty(sysApps)) {
             appIdNameMap =
-                    sysApps.stream().collect(Collectors.toMap(SysApp::getId, SysApp::getAppName, (k1, k2) -> k1));
+                sysApps.stream().collect(Collectors.toMap(SysApp::getId, SysApp::getAppName, (k1, k2) -> k1));
         }
         Map<Long, String> baseIdNameMap = null;
         if (CollectionUtils.isNotEmpty(sysBases)) {
@@ -280,23 +263,20 @@ public class SysRoleServiceImpl implements ISysRoleService {
         Map<Long, String> finalBaseIdNameMap = baseIdNameMap;
         sysRoleList.forEach(sysRole -> {
             SysRoleVo roleVo = convertParamsToSysRoleVo(sysRole);
-            Long roleId = sysRole.getId();
-
-            List<SysAppBaseRole> appBaseRoles = appBaseRoleMap.get(roleId);
-            Long appId = null;
+            Long subAppId = sysRole.getAppId();
+            List<Long> subBaseIds = Arrays.stream(sysRole.getBaseIdStr().split(Constants.COMMA)).map(Long::parseLong)
+                .collect(Collectors.toList());
             BaseAuthVo sysAppAuth = new BaseAuthVo();
             List<BaseAuthVo> sysBaseAuths = Lists.newArrayList();
-            for (SysAppBaseRole appBaseRole : appBaseRoles) {
-                appId = appBaseRoles.get(0).getAppId();
-                Long baseId = appBaseRole.getBaseId();
+            for (Long baseId : subBaseIds) {
                 String baseName = finalBaseIdNameMap.get(baseId);
                 BaseAuthVo sysBaseAuth = new BaseAuthVo();
                 sysBaseAuth.setId(baseId);
                 sysBaseAuth.setName(baseName);
                 sysBaseAuths.add(sysBaseAuth);
             }
-            String appName = finalAppIdNameMap.get(appId);
-            sysAppAuth.setId(appId);
+            String appName = finalAppIdNameMap.get(subAppId);
+            sysAppAuth.setId(subAppId);
             sysAppAuth.setName(appName);
             roleVo.setSysApp(sysAppAuth);
             roleVo.setSysBaseList(sysBaseAuths);

@@ -29,6 +29,17 @@ public class SysRole extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * 应用Id
+     */
+    @Column(name = "app_id")
+    private Long appId;
+
+    /**
+     * 基地id集合
+     */
+    @Column(name = "base_id_str")
+    private String baseIdStr;
 
     /** 角色名称 */
     @Column(name = "role_name")
@@ -95,6 +106,22 @@ public class SysRole extends BaseEntity{
     public static boolean isAdmin(Long roleId)
     {
         return roleId != null && 1L == roleId;
+    }
+
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
+    }
+
+    public String getBaseIdStr() {
+        return baseIdStr;
+    }
+
+    public void setBaseIdStr(String baseIdStr) {
+        this.baseIdStr = baseIdStr;
     }
 
     @NotBlank(message = "角色名称不能为空")
@@ -214,6 +241,8 @@ public class SysRole extends BaseEntity{
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
+                .append("appId", getAppId())
+                .append("baseIdStr", getBaseIdStr())
                 .append("roleName", getRoleName())
                 .append("roleKey", getRoleKey())
                 .append("roleSort", getRoleSort())
