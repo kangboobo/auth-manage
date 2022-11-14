@@ -52,6 +52,9 @@
     <select id="selectMenuIdsByAppIdAndRoleId" resultType="java.lang.Long">
 
     </select>
+    <select id="selectSysMenuTreeByAppIdAndRoleId" resultMap="SysMenuResult">
+
+    </select>
 
     <!--    <select id="selectMenuList" resultType="cn.coolcollege.fast.storage.entity.dao.SysMenu" resultMap="SysMenuResult">-->
     <!--        <include refid="selectMenuVo"/>-->

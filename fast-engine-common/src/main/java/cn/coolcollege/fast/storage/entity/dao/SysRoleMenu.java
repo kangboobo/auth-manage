@@ -12,7 +12,7 @@ import javax.persistence.Table;
 /**
  * 角色和菜单关联 sys_role_menu
  * 
- * @author ruoyi
+ * @author baibin
  */
 @Table(name = "sys_role_menu")
 public class SysRoleMenu {

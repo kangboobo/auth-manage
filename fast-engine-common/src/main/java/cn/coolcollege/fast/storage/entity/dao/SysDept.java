@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * 部门表 sys_dept
  * 
- * @author ruoyi
+ * @author baibin
  */
 public class SysDept extends BaseEntity {
     private static final long serialVersionUID = 1L;

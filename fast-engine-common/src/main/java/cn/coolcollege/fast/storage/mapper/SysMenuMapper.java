@@ -68,6 +68,14 @@ public interface SysMenuMapper extends Mapper<SysMenu> {
      */
     List<SysMenu> selectSysMenuTreeByAppId(@Param("appId") Long appId);
 
+
+    /**
+     * 根据用户ID查询菜单
+     *
+     * @return 菜单列表
+     */
+    List<SysMenu> selectSysMenuTreeByAppIdAndRoleId(@Param("appId") Long appId, @Param("roleId") Long roleId);
+
     /**
      * 根据应用id和角色Id查询菜单Id集合
      * @return

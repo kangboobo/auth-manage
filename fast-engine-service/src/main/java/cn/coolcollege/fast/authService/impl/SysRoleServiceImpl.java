@@ -36,7 +36,7 @@ import tk.mybatis.mapper.entity.Example;
 /**
  * 菜单 业务层处理
  *
- * @author ruoyi
+ * @author baibin
  */
 @Service
 @Slf4j
@@ -107,7 +107,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         String sysRoleVoStr = JSON.toJSONString(sysRoleVo);
         log.error("insertOrUpdateRole start, sysRoleVo={}", sysRoleVoStr);
         if (Objects.isNull(sysRoleVo) || StringUtils.isBlank(sysRoleVo.getRoleName())
-            || Objects.isNull(sysRoleVo.getSysApp()) || CollectionUtils.isEmpty(sysRoleVo.getSysBaseList())) {
+            || Objects.isNull(sysRoleVo.getSysApp()) || CollectionUtils.isEmpty(sysRoleVo.getSysBases())) {
             log.error("insertOrUpdateRole params invalid, sysRoleVo={}", sysRoleVo);
             return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
         }
@@ -190,8 +190,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
         if (Objects.nonNull(sysRoleVo.getSysApp())) {
             sysRole.setAppId(sysRoleVo.getSysApp().getId());
         }
-        if (CollectionUtils.isNotEmpty(sysRoleVo.getSysBaseList())) {
-            String baseIdStr = sysRoleVo.getSysBaseList().stream().map(v -> String.valueOf(v.getId()))
+        if (CollectionUtils.isNotEmpty(sysRoleVo.getSysBases())) {
+            String baseIdStr = sysRoleVo.getSysBases().stream().map(v -> String.valueOf(v.getId()))
                 .collect(Collectors.joining(Constants.COMMA));
             sysRole.setBaseIdStr(baseIdStr);
         }
@@ -279,7 +279,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
             sysAppAuth.setId(subAppId);
             sysAppAuth.setName(appName);
             roleVo.setSysApp(sysAppAuth);
-            roleVo.setSysBaseList(sysBaseAuths);
+            roleVo.setSysBases(sysBaseAuths);
             sysRoleVos.add(roleVo);
         });
         return sysRoleVos;
