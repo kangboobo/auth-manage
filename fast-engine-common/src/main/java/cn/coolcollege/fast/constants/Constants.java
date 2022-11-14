@@ -214,10 +214,6 @@ public interface Constants {
      * 服务和企业路由的外层key
      */
     String GATEWAY_ENV_KEY = "gateway_env";
-    /**
-     * 服务和企业在redis路由的内层key
-     */
-    String ENTERPRISE_MODULE_FORMAT = "enterprise-api_%s";
 
     String COURSE_JTH = "course_jth";
 

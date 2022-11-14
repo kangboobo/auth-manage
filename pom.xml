@@ -6,7 +6,6 @@
 
     <modules>
         <module>fast-engine-service</module>
-        <module>es-basic-operate</module>
         <module>fast-engine-common</module>
         <module>fast-service-facade</module>
     </modules>
