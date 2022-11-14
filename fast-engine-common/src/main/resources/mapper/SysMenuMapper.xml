@@ -49,6 +49,9 @@
         from sys_menu m where m.status = 0 and m.app_id = #{appId}
         order by m.parent_id, m.order_num
     </select>
+    <select id="selectMenuIdsByAppIdAndRoleId" resultType="java.lang.Long">
+
+    </select>
 
     <!--    <select id="selectMenuList" resultType="cn.coolcollege.fast.storage.entity.dao.SysMenu" resultMap="SysMenuResult">-->
     <!--        <include refid="selectMenuVo"/>-->

@@ -73,6 +73,12 @@
             <artifactId>pooled-jms</artifactId>
             <version>1.0.3</version>
         </dependency>
+        <dependency>
+            <groupId>cn.coolcollege.fast</groupId>
+            <artifactId>fast-engine-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <profiles>

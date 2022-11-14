@@ -87,6 +87,14 @@ public interface ISysMenuService {
      Object selectMenuTreeByAppId(Long appId);
 
     /**
+     * 根据应用ID和角色ID查询关联的菜单ID集合
+     * @param appId 应用id
+     * @param roleId 角色id
+     * @return
+     */
+    Object selectMenuIdsByAppIdAndRoleId(Long appId, Long roleId);
+
+    /**
      * 根据菜单ID查询信息
      *
      * @param menuId

@@ -57,6 +57,29 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Autowired
     private ISysBaseService sysBaseService;
 
+    /**
+     * 根据角色id查询单个角色信息
+     *
+     * @param roleId 角色id
+     * @return
+     */
+    @Override
+    public Object getSysRoleById(Long roleId) {
+        log.info("getSysRoleById start, roleId={}", roleId);
+        if (Objects.isNull(roleId)) {
+            log.error("getSysRoleById roleId is null");
+            return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
+        }
+        SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
+        List<SysRoleVo> sysRoleVos = querySysRoleVos(Lists.newArrayList(sysRole));
+        if (CollectionUtils.isEmpty(sysRoleVos)) {
+            log.error("getSysRoleById result is null");
+            return BaseResponse.getFailedResponse(AuthManageErrConstant.RESPONSE_IS_NULL);
+        }
+        SysRoleVo sysRoleVo = sysRoleVos.get(Constants.ZERO_VALUE);
+        return BaseResponse.getSuccessResponse(sysRoleVo);
+    }
+
     @Override
     public Object getSysRoleList(String roleName) {
         log.info("getSysRoleList start, roleName={}", roleName);
@@ -66,60 +89,12 @@ public class SysRoleServiceImpl implements ISysRoleService {
         if (StringUtils.isNotBlank(roleName)) {
             criteria.andLike("roleName", roleName);
         }
-        List<SysRoleVo> sysRoleVos = Lists.newArrayList();
         List<SysRole> sysRoleList = sysRoleMapper.selectByExample(example);
         if (CollectionUtils.isEmpty(sysRoleList)) {
             log.info("getSysRoleList::query sysRoleList is empty");
-            return BaseResponse.getSuccessResponse(sysRoleVos);
+            return BaseResponse.getSuccessResponse();
         }
-        // 角色集合
-        List<Long> roleIds = sysRoleList.stream().map(SysRole::getId).collect(Collectors.toList());
-        // 查询角色对应的应用-基地对应关系
-        List<SysAppBaseRole> appBaseRoleList = appBaseRoleMapper.selectAppBaseRoleList(roleIds);
-        
-        Map<Long, List<SysAppBaseRole>> appBaseRoleMap =
-            appBaseRoleList.stream().collect(Collectors.groupingBy(SysAppBaseRole::getRoleId));
-        Set<Long> appIds = appBaseRoleList.stream().map(SysAppBaseRole::getAppId).collect(Collectors.toSet());
-        Set<Long> baseIds = appBaseRoleList.stream().map(SysAppBaseRole::getBaseId).collect(Collectors.toSet());
-        // 根据appId集合查询应用名称
-        List<SysApp> sysApps = sysAppService.selectSysAppList(Lists.newArrayList(appIds));
-        List<SysBase> sysBases = sysBaseService.selectSysBaseList(Lists.newArrayList(baseIds));
-        Map<Long, String> appIdNameMap = null;
-        if (CollectionUtils.isNotEmpty(sysApps)) {
-            appIdNameMap =
-                sysApps.stream().collect(Collectors.toMap(SysApp::getId, SysApp::getAppName, (k1, k2) -> k1));
-        }
-        Map<Long, String> baseIdNameMap = null;
-        if (CollectionUtils.isNotEmpty(sysBases)) {
-            baseIdNameMap =
-                sysBases.stream().collect(Collectors.toMap(SysBase::getId, SysBase::getBaseName, (k1, k2) -> k1));
-        }
-        Map<Long, String> finalAppIdNameMap = appIdNameMap;
-        Map<Long, String> finalBaseIdNameMap = baseIdNameMap;
-        sysRoleList.forEach(sysRole -> {
-            SysRoleVo roleVo = convertParamsToSysRoleVo(sysRole);
-            Long roleId = sysRole.getId();
-
-            List<SysAppBaseRole> appBaseRoles = appBaseRoleMap.get(roleId);
-            Long appId = null;
-            BaseAuthVo sysAppAuth = new BaseAuthVo();
-            List<BaseAuthVo> sysBaseAuths = Lists.newArrayList();
-            for (SysAppBaseRole appBaseRole : appBaseRoles) {
-                appId = appBaseRoles.get(0).getAppId();
-                Long baseId = appBaseRole.getBaseId();
-                String baseName = finalBaseIdNameMap.get(baseId);
-                BaseAuthVo sysBaseAuth = new BaseAuthVo();
-                sysBaseAuth.setId(baseId);
-                sysBaseAuth.setName(baseName);
-                sysBaseAuths.add(sysBaseAuth);
-            }
-            String appName = finalAppIdNameMap.get(appId);
-            sysAppAuth.setId(appId);
-            sysAppAuth.setName(appName);
-            roleVo.setSysApp(sysAppAuth);
-            roleVo.setSysBaseList(sysBaseAuths);
-            sysRoleVos.add(roleVo);
-        });
+        List<SysRoleVo> sysRoleVos = querySysRoleVos(sysRoleList);
         return BaseResponse.getSuccessResponse(sysRoleVos);
     }
 
@@ -277,4 +252,57 @@ public class SysRoleServiceImpl implements ISysRoleService {
         roleMenuExample.createCriteria().andEqualTo("roleId", roleId);
         roleMenuMapper.deleteByExample(roleMenuExample);
     }
+
+    private List<SysRoleVo> querySysRoleVos(List<SysRole> sysRoleList) {
+        List<SysRoleVo> sysRoleVos = Lists.newArrayList();
+        List<Long> roleIds = sysRoleList.stream().map(SysRole::getId).collect(Collectors.toList());
+        // 查询角色对应的应用-基地对应关系
+        List<SysAppBaseRole> appBaseRoleList = appBaseRoleMapper.selectAppBaseRoleList(roleIds);
+
+        Map<Long, List<SysAppBaseRole>> appBaseRoleMap =
+                appBaseRoleList.stream().collect(Collectors.groupingBy(SysAppBaseRole::getRoleId));
+        Set<Long> appIds = appBaseRoleList.stream().map(SysAppBaseRole::getAppId).collect(Collectors.toSet());
+        Set<Long> baseIds = appBaseRoleList.stream().map(SysAppBaseRole::getBaseId).collect(Collectors.toSet());
+        // 根据appId集合查询应用名称
+        List<SysApp> sysApps = sysAppService.selectSysAppList(Lists.newArrayList(appIds));
+        List<SysBase> sysBases = sysBaseService.selectSysBaseList(Lists.newArrayList(baseIds));
+        Map<Long, String> appIdNameMap = null;
+        if (CollectionUtils.isNotEmpty(sysApps)) {
+            appIdNameMap =
+                    sysApps.stream().collect(Collectors.toMap(SysApp::getId, SysApp::getAppName, (k1, k2) -> k1));
+        }
+        Map<Long, String> baseIdNameMap = null;
+        if (CollectionUtils.isNotEmpty(sysBases)) {
+            baseIdNameMap =
+                    sysBases.stream().collect(Collectors.toMap(SysBase::getId, SysBase::getBaseName, (k1, k2) -> k1));
+        }
+        Map<Long, String> finalAppIdNameMap = appIdNameMap;
+        Map<Long, String> finalBaseIdNameMap = baseIdNameMap;
+        sysRoleList.forEach(sysRole -> {
+            SysRoleVo roleVo = convertParamsToSysRoleVo(sysRole);
+            Long roleId = sysRole.getId();
+
+            List<SysAppBaseRole> appBaseRoles = appBaseRoleMap.get(roleId);
+            Long appId = null;
+            BaseAuthVo sysAppAuth = new BaseAuthVo();
+            List<BaseAuthVo> sysBaseAuths = Lists.newArrayList();
+            for (SysAppBaseRole appBaseRole : appBaseRoles) {
+                appId = appBaseRoles.get(0).getAppId();
+                Long baseId = appBaseRole.getBaseId();
+                String baseName = finalBaseIdNameMap.get(baseId);
+                BaseAuthVo sysBaseAuth = new BaseAuthVo();
+                sysBaseAuth.setId(baseId);
+                sysBaseAuth.setName(baseName);
+                sysBaseAuths.add(sysBaseAuth);
+            }
+            String appName = finalAppIdNameMap.get(appId);
+            sysAppAuth.setId(appId);
+            sysAppAuth.setName(appName);
+            roleVo.setSysApp(sysAppAuth);
+            roleVo.setSysBaseList(sysBaseAuths);
+            sysRoleVos.add(roleVo);
+        });
+        return sysRoleVos;
+    }
+
 }

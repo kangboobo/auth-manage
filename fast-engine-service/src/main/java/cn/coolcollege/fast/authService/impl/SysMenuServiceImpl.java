@@ -288,6 +288,24 @@ public class SysMenuServiceImpl implements ISysMenuService {
     }
 
     /**
+     * 根据应用ID和角色ID查询关联的菜单ID集合
+     *
+     * @param appId  应用id
+     * @param roleId 角色id
+     * @return
+     */
+    @Override
+    public Object selectMenuIdsByAppIdAndRoleId(Long appId, Long roleId) {
+        log.info("selectMenuIdsById start, appId={}, roleId={}", appId, roleId);
+        if(Objects.isNull(appId) || Objects.isNull(roleId)){
+            log.error("selectMenuIdsById appId or roleId is null");
+            return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
+        }
+        List<Long> menuIds = menuMapper.selectMenuIdsByAppIdAndRoleId(appId, roleId);
+        return BaseResponse.getSuccessResponse(menuIds);
+    }
+
+    /**
      * 根据菜单ID查询信息
      *
      * @param menuId

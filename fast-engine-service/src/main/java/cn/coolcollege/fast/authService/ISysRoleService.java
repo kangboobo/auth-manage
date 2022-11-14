@@ -9,6 +9,13 @@ import cn.coolcollege.fast.storage.entity.vo.SysRoleVo;
  */
 public interface ISysRoleService {
 
+    /**
+     * 根据角色id查询单个角色信息
+     * @param roleId 角色id
+     * @return
+     */
+    Object getSysRoleById(Long roleId);
+
 
     Object getSysRoleList(String roleName);
 
