@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import cn.coolcollege.fast.dto.EsCommonDto;
-import cn.coolcollege.fast.entity.result.EsOutGroupCountResult;
 import com.google.common.collect.Maps;
 import net.coolcollege.authority.facade.constants.RangeTypeEnum;
 import org.apache.commons.collections4.CollectionUtils;
@@ -36,16 +35,6 @@ import com.google.common.collect.Sets;
 
 import cn.coolcollege.fast.constants.*;
 import cn.coolcollege.fast.dto.EsUserIdDto;
-import cn.coolcollege.fast.entity.EsBaseQueryParam;
-import cn.coolcollege.fast.entity.EsOutputDto;
-import cn.coolcollege.fast.entity.EsSortOrderParam;
-import cn.coolcollege.fast.entity.UserResourceDo;
-import cn.coolcollege.fast.entity.request.CheckResourceVisibleRequest;
-import cn.coolcollege.fast.entity.request.EsOutputRequest;
-import cn.coolcollege.fast.entity.request.GetUserVisibleClassifyIdsRequest;
-import cn.coolcollege.fast.entity.result.CheckResourceVisibleResult;
-import cn.coolcollege.fast.entity.result.EsOutputResult;
-import cn.coolcollege.fast.entity.result.GetUserVisibleClassifyIdsResult;
 import cn.coolcollege.fast.util.CommonUtils;
 import net.coolcollege.platform.util.ErrMsgUtil;
 import net.coolcollege.platform.util.annonation.MonitorLog;

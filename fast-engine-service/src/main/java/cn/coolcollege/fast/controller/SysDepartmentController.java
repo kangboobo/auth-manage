@@ -23,15 +23,15 @@ public class SysDepartmentController {
 
     /**
      * 查询部门树
-     * @param keyword 关键词
+     * @param departmentId 部门id（查询某一部门下的树，不传时默认查询所有部门结构）
      * @param pageNumber 分页参数
      * @param pageSize 分页参数
      * @return
      */
     @GetMapping(value = "/list")
-    public Object getDepartmentList(@RequestParam(value = "keyword", required = false) String keyword,
+    public Object getDepartmentList(@RequestParam(value = "department_id", required = false) String departmentId,
                                     @RequestParam(value = "page_number", defaultValue = "1") Integer pageNumber,
                                     @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize) {
-        return sysDepartmentService.getDepartmentList(keyword, pageNumber, pageSize);
+        return sysDepartmentService.getDepartmentList(departmentId, pageNumber, pageSize);
     }
 }

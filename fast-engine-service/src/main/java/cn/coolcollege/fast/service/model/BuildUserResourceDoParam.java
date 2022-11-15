@@ -1,7 +1,5 @@
 package cn.coolcollege.fast.service.model;
 
-import cn.coolcollege.fast.entity.Resource;
-
 import java.util.List;
 import java.util.Map;
 

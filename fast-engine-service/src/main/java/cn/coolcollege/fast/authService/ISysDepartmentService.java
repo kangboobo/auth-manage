@@ -12,10 +12,10 @@ public interface ISysDepartmentService {
 
     /**
      * 查询部门树
-     * @param keyword 关键词
+     * @param departmentId 部门id（查询某一部门下的树，不传时默认查询所有部门结构）
      * @param pageNumber 分页参数
      * @param pageSize 分页参数
      * @return
      */
-    BaseResponse getDepartmentList(String keyword, Integer pageNumber, Integer pageSize);
+    BaseResponse getDepartmentList(String departmentId, Integer pageNumber, Integer pageSize);
 }

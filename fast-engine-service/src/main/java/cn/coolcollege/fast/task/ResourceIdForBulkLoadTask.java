@@ -3,8 +3,6 @@ package cn.coolcollege.fast.task;
 import cn.coolcollege.fast.SpringContextUtil;
 import cn.coolcollege.fast.config.MsgConfig;
 import cn.coolcollege.fast.constants.Constants;
-import cn.coolcollege.fast.entity.request.GetPageBatchResourceInfoRequest;
-import cn.coolcollege.fast.entity.result.GetPageBatchResourceInfoResult;
 import cn.coolcollege.fast.task.msg.ResourceDetailMsg;
 import cn.coolcollege.fast.task.msg.ResourceIdForBulkLoadMsg;
 import com.alibaba.fastjson.JSON;
