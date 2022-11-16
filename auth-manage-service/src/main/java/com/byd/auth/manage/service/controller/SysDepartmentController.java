@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description 部门controller类
  */
 @RestController
-@Api(tags = "DepartmentAndUser", description = "组织架构api")
+@Api(tags = "User", description = "组织架构api")
 @RequestMapping("/v1/sys/department")
 public class SysDepartmentController {
 
