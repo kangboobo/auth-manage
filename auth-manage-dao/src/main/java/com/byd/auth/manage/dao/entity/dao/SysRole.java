@@ -60,12 +60,12 @@ public class SysRole extends BaseEntity{
     /** 菜单树选择项是否关联显示（ 0：父子不互相关联显示 1：父子互相关联显示） */
     @Column(name = "menu_check_strictly")
     @JSONField(name = "menu_check_strictly")
-    private boolean menuCheckStrictly;
+    private Boolean menuCheckStrictly;
 
     /** 部门树选择项是否关联显示（0：父子不互相关联显示 1：父子互相关联显示 ） */
     @Column(name = "dept_check_strictly")
     @JSONField(name = "dept_check_strictly")
-    private boolean deptCheckStrictly;
+    private Boolean deptCheckStrictly;
 
     /** 角色状态（0正常 1停用） */
     private String status;
@@ -157,23 +157,19 @@ public class SysRole extends BaseEntity{
         this.dataScope = dataScope;
     }
 
-    public boolean isMenuCheckStrictly()
-    {
+    public Boolean getMenuCheckStrictly() {
         return menuCheckStrictly;
     }
 
-    public void setMenuCheckStrictly(boolean menuCheckStrictly)
-    {
+    public void setMenuCheckStrictly(Boolean menuCheckStrictly) {
         this.menuCheckStrictly = menuCheckStrictly;
     }
 
-    public boolean isDeptCheckStrictly()
-    {
+    public Boolean getDeptCheckStrictly() {
         return deptCheckStrictly;
     }
 
-    public void setDeptCheckStrictly(boolean deptCheckStrictly)
-    {
+    public void setDeptCheckStrictly(Boolean deptCheckStrictly) {
         this.deptCheckStrictly = deptCheckStrictly;
     }
 
@@ -219,8 +215,8 @@ public class SysRole extends BaseEntity{
                 .append("roleKey", getRoleKey())
                 .append("roleSort", getRoleSort())
                 .append("dataScope", getDataScope())
-                .append("menuCheckStrictly", isMenuCheckStrictly())
-                .append("deptCheckStrictly", isDeptCheckStrictly())
+                .append("menuCheckStrictly", getMenuCheckStrictly())
+                .append("deptCheckStrictly", getDeptCheckStrictly())
                 .append("status", getStatus())
                 .append("deleteFlag", getDeleteFlag())
                 .append("createUser", getCreateUser())
