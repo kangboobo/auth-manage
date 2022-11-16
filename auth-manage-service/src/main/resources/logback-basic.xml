@@ -5,7 +5,7 @@
 
     <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
-        <file>${accessLogPath}/fast_engine_access.log</file>
+        <file>${accessLogPath}/auth-manage_access.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
@@ -13,7 +13,7 @@
         </filter>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${accessLogPath}/fast_engine_access.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${accessLogPath}/auth-manage_access.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>2</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
@@ -27,7 +27,7 @@
 
     <appender name="monitorInfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
-        <file>${monitorLogPath}/fast_engine_monitor.log</file>
+        <file>${monitorLogPath}/auth-manage_monitor.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
@@ -35,7 +35,7 @@
         </filter>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${monitorLogPath}/fast_engine_monitor.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${monitorLogPath}/auth-manage_monitor.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>2</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
@@ -49,7 +49,7 @@
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
-        <file>${errorLogPath}/fast_engine_error.log</file>
+        <file>${errorLogPath}/auth-manage_error.log</file>
 
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
@@ -58,7 +58,7 @@
         <append>true</append>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${errorLogPath}/fast_engine_error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${errorLogPath}/auth-manage_error.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>2</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
