@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -74,16 +73,6 @@ public class SysRole extends BaseEntity{
     /** 用户是否存在此角色标识 默认不存在 */
     @Transient
     private boolean flag = false;
-
-    /** 菜单组 */
-    @Column(name = "menu_ids")
-    @JSONField(name = "menu_ids")
-    private List<Long> menuIds;
-
-    /** 部门组（数据权限） */
-    @Column(name = "dept_ids")
-    @JSONField(name = "dept_ids")
-    private List<Long> deptIds;
 
     /** 角色菜单权限 */
     @Transient
@@ -209,22 +198,6 @@ public class SysRole extends BaseEntity{
         this.flag = flag;
     }
 
-
-    public List<Long> getMenuIds() {
-        return menuIds;
-    }
-
-    public void setMenuIds(List<Long> menuIds) {
-        this.menuIds = menuIds;
-    }
-
-    public List<Long> getDeptIds() {
-        return deptIds;
-    }
-
-    public void setDeptIds(List<Long> deptIds) {
-        this.deptIds = deptIds;
-    }
 
     public Set<String> getPermissions()
     {
