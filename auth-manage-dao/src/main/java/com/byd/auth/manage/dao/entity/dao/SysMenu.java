@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -47,11 +48,6 @@ public class SysMenu extends BaseEntity {
     @JSONField(name = "parent_id")
     private Long parentId;
 
-    /** 父菜单名称 */
-    @Column(name = "parent_name")
-    @JSONField(name = "parent_name")
-    private String parentName;
-
     /** 显示顺序 */
     @Column(name = "order_num")
     @JSONField(name = "order_num")
@@ -71,11 +67,6 @@ public class SysMenu extends BaseEntity {
     @JSONField(name = "is_frame")
     private String isFrame;
 
-    /** 是否缓存（0缓存 1不缓存） */
-    @Column(name = "is_cache")
-    @JSONField(name = "is_cache")
-    private String isCache;
-
     /** 类型（M目录 C菜单 F按钮） */
     @Column(name = "menu_type")
     @JSONField(name = "menu_type")
@@ -84,15 +75,13 @@ public class SysMenu extends BaseEntity {
     /** 显示状态（0显示 1隐藏） */
     private String visible;
 
-    /** 菜单状态（0正常 1停用） */
-    private String status;
-
     /** 权限字符串 */
     private String perms;
 
     /** 菜单图标 */
     private String icon;
 
+    @Transient
     /** 子菜单 */
     private List<SysMenu> children = Lists.newArrayList();
 
@@ -130,16 +119,6 @@ public class SysMenu extends BaseEntity {
     public void setMenuName(String menuName)
     {
         this.menuName = menuName;
-    }
-
-    public String getParentName()
-    {
-        return parentName;
-    }
-
-    public void setParentName(String parentName)
-    {
-        this.parentName = parentName;
     }
 
     @NotNull(message = "显示顺序不能为空")
@@ -195,16 +174,6 @@ public class SysMenu extends BaseEntity {
         this.isFrame = isFrame;
     }
 
-    public String getIsCache()
-    {
-        return isCache;
-    }
-
-    public void setIsCache(String isCache)
-    {
-        this.isCache = isCache;
-    }
-
     @NotBlank(message = "菜单类型不能为空")
     public String getMenuType()
     {
@@ -224,16 +193,6 @@ public class SysMenu extends BaseEntity {
     public void setVisible(String visible)
     {
         this.visible = visible;
-    }
-
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
     }
 
     @Size(min = 0, max = 100, message = "权限标识长度不能超过100个字符")
@@ -278,10 +237,8 @@ public class SysMenu extends BaseEntity {
                 .append("path", getPath())
                 .append("component", getComponent())
                 .append("isFrame", getIsFrame())
-                .append("IsCache", getIsCache())
                 .append("menuType", getMenuType())
                 .append("visible", getVisible())
-                .append("status ", getStatus())
                 .append("perms", getPerms())
                 .append("icon", getIcon())
                 .append("createUser", getCreateUser())

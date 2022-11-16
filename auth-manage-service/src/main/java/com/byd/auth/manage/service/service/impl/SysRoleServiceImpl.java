@@ -193,11 +193,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         sysRole.setRoleKey(sysRoleVo.getRoleKey());
         sysRole.setRoleSort(sysRoleVo.getRoleSort());
         sysRole.setDataScope(sysRoleVo.getDataScope());
-        sysRole.setDeptCheckStrictly(sysRoleVo.getDeptCheckStrictly());
-        sysRole.setMenuCheckStrictly(sysRoleVo.getMenuCheckStrictly());
-        sysRole.setStatus(sysRoleVo.getStatus());
         sysRole.setFlag(sysRoleVo.isFlag());
-        sysRole.setPermissions(sysRoleVo.getPermissions());
         sysRole.setRemark(sysRoleVo.getRemark());
         if (Objects.nonNull(sysRoleVo.getSysApp())) {
             sysRole.setAppId(sysRoleVo.getSysApp().getId());
@@ -219,11 +215,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         sysRoleVo.setRoleKey(sysRole.getRoleKey());
         sysRoleVo.setRoleSort(sysRole.getRoleSort());
         sysRoleVo.setDataScope(sysRole.getDataScope());
-        sysRoleVo.setDeptCheckStrictly(sysRole.getDeptCheckStrictly());
-        sysRoleVo.setMenuCheckStrictly(sysRole.getMenuCheckStrictly());
-        sysRoleVo.setStatus(sysRole.getStatus());
         sysRoleVo.setFlag(sysRole.isFlag());
-        sysRoleVo.setPermissions(sysRole.getPermissions());
         sysRoleVo.setRemark(sysRole.getRemark());
         return sysRoleVo;
     }
