@@ -1,6 +1,8 @@
 package com.byd.auth.manage.common.constants;
 
 import com.byd.auth.manage.common.exception.ErrorContext;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
@@ -10,14 +12,32 @@ import java.io.Serializable;
  * @date 2022/11/8 15:07
  * @description
  */
+@ApiModel(value = "通用PI接口返回", description = "Common Api Response")
 public class BaseResponse<T> implements Serializable {
     private static final long serialVersionUID = -8244372110143879374L;
-    private String success = "true";
+
     /**
-     * 0:接口相应成功
+     * 通用返回状态
      */
+    @ApiModelProperty(value = "通用返回状态", required = true)
+    private String success = "true";
+
+    /**
+     * 通用返回结果码(0:接口响应成功)
+     */
+    @ApiModelProperty(value = "通用返回结果码", required = true)
     private int code = 0;
+
+    /**
+     * 通用返回信息
+     */
+    @ApiModelProperty(value = "通用返回信息", required = true)
     private String msg;
+
+    /**
+     * 通用返回数据
+     */
+    @ApiModelProperty(value = "通用返回数据", required = true)
     private T data;
 
     public BaseResponse() {
