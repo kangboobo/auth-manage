@@ -1,9 +1,11 @@
 package cn.coolcollege.fast.storage.mapper;
 
+import java.util.List;
+
+import cn.coolcollege.fast.storage.entity.dao.SysUserGroupUser;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import cn.coolcollege.fast.storage.entity.dao.SysUserGroup;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
@@ -13,7 +15,7 @@ import tk.mybatis.mapper.common.Mapper;
  * @description
  */
 @Repository
-public interface SysUserGroupMapper extends Mapper<SysUserGroup> {
+public interface SysUserGroupUserMapper extends Mapper<SysUserGroupUser> {
 
-    Long insertSysUserGroup(@Param("userGroup") SysUserGroup userGroup);
+    Integer insertList(@Param("list") List<SysUserGroupUser> list);
 }

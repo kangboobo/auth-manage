@@ -3,10 +3,8 @@ package cn.coolcollege.fast.authService.impl;
 import java.util.List;
 import java.util.Objects;
 
-import cn.coolcollege.fast.storage.entity.vo.BaseAuthVo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

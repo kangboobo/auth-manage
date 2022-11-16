@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
@@ -143,7 +144,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
             log.error("");
             return BaseResponse.getFailedResponse(AuthManageErrConstant.OPERATE_DB_ERR);
         }
-        return null;
+        return BaseResponse.getSuccessResponse();
     }
 
     @Override
@@ -168,6 +169,19 @@ public class SysRoleServiceImpl implements ISysRoleService {
             return BaseResponse.getFailedResponse(AuthManageErrConstant.OPERATE_DB_ERR);
         }
         return BaseResponse.getSuccessResponse();
+    }
+
+    @Override
+    public List<SysRole> selectSysRoleList(List<Long> roleIds) {
+        List<SysRole> sysRoles;
+        if (CollectionUtils.isEmpty(roleIds)) {
+            sysRoles = sysRoleMapper.selectAll();
+        } else {
+            Example example = new Example(SysRole.class);
+            example.createCriteria().andIn("id", roleIds);
+            sysRoles = sysRoleMapper.selectByExample(example);
+        }
+        return sysRoles;
     }
 
     private SysRole convertParamsToSysRole(SysRoleVo sysRoleVo) {
@@ -263,23 +277,27 @@ public class SysRoleServiceImpl implements ISysRoleService {
         Map<Long, String> finalBaseIdNameMap = baseIdNameMap;
         sysRoleList.forEach(sysRole -> {
             SysRoleVo roleVo = convertParamsToSysRoleVo(sysRole);
-            Long subAppId = sysRole.getAppId();
-            List<Long> subBaseIds = Arrays.stream(sysRole.getBaseIdStr().split(Constants.COMMA)).map(Long::parseLong)
-                .collect(Collectors.toList());
-            BaseAuthVo sysAppAuth = new BaseAuthVo();
-            List<BaseAuthVo> sysBaseAuths = Lists.newArrayList();
-            for (Long baseId : subBaseIds) {
-                String baseName = finalBaseIdNameMap.get(baseId);
-                BaseAuthVo sysBaseAuth = new BaseAuthVo();
-                sysBaseAuth.setId(baseId);
-                sysBaseAuth.setName(baseName);
-                sysBaseAuths.add(sysBaseAuth);
+            if (MapUtils.isNotEmpty(finalAppIdNameMap)) {
+                Long subAppId = sysRole.getAppId();
+                BaseAuthVo sysAppAuth = new BaseAuthVo();
+                String appName = finalAppIdNameMap.getOrDefault(subAppId, Constants.EMPTY_STR);
+                sysAppAuth.setId(subAppId);
+                sysAppAuth.setName(appName);
+                roleVo.setSysApp(sysAppAuth);
             }
-            String appName = finalAppIdNameMap.get(subAppId);
-            sysAppAuth.setId(subAppId);
-            sysAppAuth.setName(appName);
-            roleVo.setSysApp(sysAppAuth);
-            roleVo.setSysBases(sysBaseAuths);
+            if (MapUtils.isNotEmpty(finalBaseIdNameMap)) {
+                List<Long> subBaseIds = Arrays.stream(sysRole.getBaseIdStr().split(Constants.COMMA))
+                    .map(Long::parseLong).collect(Collectors.toList());
+                List<BaseAuthVo> sysBaseAuths = Lists.newArrayList();
+                for (Long baseId : subBaseIds) {
+                    String baseName = finalBaseIdNameMap.getOrDefault(baseId, Constants.EMPTY_STR);
+                    BaseAuthVo sysBaseAuth = new BaseAuthVo();
+                    sysBaseAuth.setId(baseId);
+                    sysBaseAuth.setName(baseName);
+                    sysBaseAuths.add(sysBaseAuth);
+                }
+                roleVo.setSysBases(sysBaseAuths);
+            }
             sysRoleVos.add(roleVo);
         });
         return sysRoleVos;
