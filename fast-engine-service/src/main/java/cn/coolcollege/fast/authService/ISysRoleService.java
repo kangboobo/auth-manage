@@ -1,6 +1,10 @@
 package cn.coolcollege.fast.authService;
 
+import cn.coolcollege.fast.storage.entity.dao.SysRole;
 import cn.coolcollege.fast.storage.entity.vo.SysRoleVo;
+
+import java.util.List;
+
 /**
  * @author baibin
  * @version 1.0
@@ -32,5 +36,7 @@ public interface ISysRoleService {
      * @return
      */
     Object deleteSysRoleById(Long roleId);
+
+    List<SysRole> selectSysRoleList(List<Long> roleIds);
 
 }

@@ -24,9 +24,6 @@ public class SysUserGroupVo extends SysUserGroup {
     @JSONField(name = "sys_roles")
     private List<BaseAuthVo> sysRoles;
 
-    @JSONField(name = "sys_users")
-    private List<BaseAuthVo> sysUsers;
-
     public BaseAuthVo getSysApp() {
         return sysApp;
     }
@@ -49,14 +46,6 @@ public class SysUserGroupVo extends SysUserGroup {
 
     public void setSysRoles(List<BaseAuthVo> sysRoles) {
         this.sysRoles = sysRoles;
-    }
-
-    public List<BaseAuthVo> getSysUsers() {
-        return sysUsers;
-    }
-
-    public void setSysUsers(List<BaseAuthVo> sysUsers) {
-        this.sysUsers = sysUsers;
     }
 }
 
