@@ -1,4 +1,4 @@
-package com.byd.auth.manage.dao.constants;
+package com.byd.auth.manage.facade.constants;
 
 /**
  * @author baibin

@@ -21,12 +21,16 @@
         <module>auth-manage-service</module>
         <module>auth-manage-facade</module>
     </modules>
-
+    
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <auth-manage-common.version>1.0.0-SNAPSHOT</auth-manage-common.version>
+        <auth-manage-dao.version>1.0.0-SNAPSHOT</auth-manage-dao.version>
+        <auth-manage-service.version>1.0.0-SNAPSHOT</auth-manage-service.version>
+        <auth-manage-facade.version>1.0.0-SNAPSHOT</auth-manage-facade.version>
         <lombok.version>1.18.16</lombok.version>
         <sonar.coverage.exclusions>
             **/constants/*,
@@ -42,6 +46,26 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.byd.auth.manage</groupId>
+                <artifactId>auth-manage-common</artifactId>
+                <version>${auth-manage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.byd.auth.manage</groupId>
+                <artifactId>auth-manage-dao</artifactId>
+                <version>${auth-manage-dao.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.byd.auth.manage</groupId>
+                <artifactId>auth-manage-facade</artifactId>
+                <version>${auth-manage-facade.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.byd.auth.manage</groupId>
+                <artifactId>auth-manage-service</artifactId>
+                <version>${auth-manage-service.version}</version>
+            </dependency>
             <!--mockito 2.1.0开始引入此包可以mock final方法 -->
             <dependency>
                 <groupId>org.mockito</groupId>

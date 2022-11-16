@@ -6,6 +6,7 @@ import java.util.Objects;
 import com.byd.auth.manage.common.constants.BaseResponse;
 import com.byd.auth.manage.common.constants.Constants;
 import com.byd.auth.manage.common.exception.AuthManageErrConstant;
+import com.byd.auth.manage.dao.entity.dao.SysApp;
 import com.byd.auth.manage.dao.entity.dao.SysAppBase;
 import com.byd.auth.manage.dao.mapper.SysAppBaseMapper;
 import com.byd.auth.manage.dao.mapper.SysAppMapper;
