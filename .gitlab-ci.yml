@@ -7,7 +7,7 @@ cache:
 
 variables:
   #Sonar token get form sonar admin.
-  SONAR_PROJECT_KEY: "fast-engine-platform"
+  SONAR_PROJECT_KEY: "auth-manage"
   SONAR_TOKEN: "ddf1913e532bf3a07bf1a46185d4d365b6fab341"
   #Sonar url.
   SONAR_HOST_URL: "http://sonar.coolcollege.cn:9001"
