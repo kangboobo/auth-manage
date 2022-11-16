@@ -3,11 +3,24 @@
 <mapper namespace="cn.coolcollege.fast.storage.mapper.SysRoleMapper">
 
     <insert id="insertSysRole">
-        insert into sys_role (id, role_name, role_key, role_sort, data_scope, menu_check_strictly,
-        dept_check_strictly, status, menu_ids, dept_ids
+        insert into sys_role (
+        id,
+        app_id,
+        base_id_str,
+        role_name,
+        role_key,
+        role_sort,
+        data_scope,
+        menu_check_strictly,
+        dept_check_strictly,
+        status,
+        menu_ids,
+        dept_ids
         ) values
         (
-        #{sysRole.id, jdbcType=INTEGER},
+        #{sysRole.id, jdbcType=BIGINT},
+        #{sysRole.appId, jdbcType=BIGINT},
+        #{sysRole.baseIdStr, jdbcType=VARCHAR},
         #{sysRole.roleName, jdbcType=VARCHAR},
         #{sysRole.roleKey, jdbcType=VARCHAR},
         #{sysRole.roleSort, jdbcType=INTEGER},

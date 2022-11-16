@@ -2,11 +2,8 @@ package cn.coolcollege.fast.storage.entity.dao;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -75,6 +72,7 @@ public class SysRole extends BaseEntity{
     private String status;
 
     /** 用户是否存在此角色标识 默认不存在 */
+    @Transient
     private boolean flag = false;
 
     /** 菜单组 */
@@ -88,6 +86,7 @@ public class SysRole extends BaseEntity{
     private List<Long> deptIds;
 
     /** 角色菜单权限 */
+    @Transient
     private Set<String> permissions;
 
     public SysRole()
