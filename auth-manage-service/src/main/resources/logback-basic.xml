@@ -1,0 +1,70 @@
+<included>
+    <springProperty name="accessLogPath" source="log.access.path"/>
+    <springProperty name="errorLogPath" source="log.error.path"/>
+    <springProperty name="monitorLogPath" source="log.monitor.path"/>
+
+    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${accessLogPath}/auth-manage_access.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${accessLogPath}/auth-manage_access.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>2</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - [%X{SOFA-TraceId},%X{SOFA-SpanId},%X{MSG-ID}],%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="monitorInfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${monitorLogPath}/auth-manage_monitor.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${monitorLogPath}/auth-manage_monitor.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>2</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>
+                %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${errorLogPath}/auth-manage_error.log</file>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+
+        <append>true</append>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${errorLogPath}/auth-manage_error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>2</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - [%X{SOFA-TraceId},%X{SOFA-SpanId},%X{MSG-ID}],%msg%n</pattern>
+        </encoder>
+    </appender>
+</included>

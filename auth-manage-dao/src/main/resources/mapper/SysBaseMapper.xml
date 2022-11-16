@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byd.auth.manage.dao.mapper.SysBaseMapper">
+
+    <insert id="insertSysBase" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.byd.auth.manage.dao.entity.dao.SysBase">
+        insert into sys_base (id, app_id, tenant_id, rule_id, user_id, dispatch_time,
+        send_status,
+        match_time) values
+        (
+        #{sysBase.id, jdbcType=INTEGER},
+        #{sysBase.appId, jdbcType=VARCHAR},
+        #{sysBase.tenantId, jdbcType=VARCHAR},
+        #{sysBase.ruleId, jdbcType=VARCHAR},
+        #{sysBase.userId, jdbcType=BIGINT},
+        #{sysBase.dispatchTime, jdbcType=BIGINT},
+        #{sysBase.sendStatus, jdbcType=VARCHAR},
+        #{sysBase.matchTime, jdbcType=BIGINT}
+        )
+    </insert>
+    <select id="selectSysBaseListByIds" resultType="com.byd.auth.manage.dao.entity.dao.SysBase">
+        select id, base_code, base_name, factory_code, area, description
+        from sys_base
+        where id in
+        <foreach collection="ids" item="id" separator=",">
+            #{id,jdbcType=BIGINT}
+        </foreach>)
+    </select>
+</mapper>

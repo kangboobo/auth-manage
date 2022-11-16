@@ -4,12 +4,6 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>fast-engine-service</module>
-        <module>fast-engine-common</module>
-        <module>fast-service-facade</module>
-    </modules>
-
     <parent>
         <groupId>com.alipay.sofa</groupId>
         <artifactId>sofaboot-dependencies</artifactId>
@@ -17,24 +11,33 @@
         <relativePath/>
     </parent>
 
-    <artifactId>fast-engine-platform</artifactId>
-    <groupId>cn.coolcollege.fast</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>fast-engine-platform</name>
-
+    <groupId>com.byd.auth.manage</groupId>
+    <artifactId>auth-manage</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>auth-manage</name>
+    <modules>
+        <module>auth-manage-common</module>
+        <module>auth-manage-dao</module>
+        <module>auth-manage-service</module>
+        <module>auth-manage-facade</module>
+    </modules>
+    
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <auth-manage-common.version>1.0.0-SNAPSHOT</auth-manage-common.version>
+        <auth-manage-dao.version>1.0.0-SNAPSHOT</auth-manage-dao.version>
+        <auth-manage-service.version>1.0.0-SNAPSHOT</auth-manage-service.version>
+        <auth-manage-facade.version>1.0.0-SNAPSHOT</auth-manage-facade.version>
         <lombok.version>1.18.16</lombok.version>
         <sonar.coverage.exclusions>
             **/constants/*,
             **/config/*,
             **/aspect/*,
-            **/dto/*,
             **/model/*,
-            **/storage/*,
+            **/dao/*,
             **/entity/**/*,
             **/handler/*,
             **/event/*
@@ -43,6 +46,26 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.byd.auth.manage</groupId>
+                <artifactId>auth-manage-common</artifactId>
+                <version>${auth-manage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.byd.auth.manage</groupId>
+                <artifactId>auth-manage-dao</artifactId>
+                <version>${auth-manage-dao.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.byd.auth.manage</groupId>
+                <artifactId>auth-manage-facade</artifactId>
+                <version>${auth-manage-facade.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.byd.auth.manage</groupId>
+                <artifactId>auth-manage-service</artifactId>
+                <version>${auth-manage-service.version}</version>
+            </dependency>
             <!--mockito 2.1.0开始引入此包可以mock final方法 -->
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -103,6 +126,26 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore-nio</artifactId>
                 <version>4.4.9</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>18.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.11</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.56</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

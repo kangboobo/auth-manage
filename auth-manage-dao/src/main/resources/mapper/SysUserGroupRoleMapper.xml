@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byd.auth.manage.dao.mapper.SysUserGroupRoleMapper">
+
+<!--    <select id="checkMenuExistRole" resultType="java.lang.Integer">-->
+<!--        select count(1) from sys_role_menu where menu_id = #{menuId}-->
+<!--    </select>-->
+    <insert id="insertList">
+        insert into sys_role_menu
+        (id, roleId, menuId)
+        values
+        <foreach collection="list" item="it" separator=",">
+            (
+            #{it.id, jdbcType=BIGINT},
+            #{it.roleId, jdbcType=BIGINT},
+            #{it.menuId, jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+    <select id="selectUserGroupRoles" resultType="com.byd.auth.manage.dao.entity.dao.SysUserGroupRole"></select>
+</mapper>
