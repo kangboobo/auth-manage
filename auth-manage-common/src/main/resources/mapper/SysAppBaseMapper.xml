@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byd.auth.manage.facade.storage.mapper.SysAppBaseMapper">
+
+
+    <insert id="insertList">
+        insert ignore into auto_dispatch_rule_detail(id, app_id, tenant_id, rule_id, condition_name, condition_value,
+        create_user,create_time,is_active)
+        values
+        <foreach collection="list" separator="," item="item">
+            (
+            #{item.id, jdbcType=BIGINT},
+            #{item.appId, jdbcType=VARCHAR},
+            #{item.tenantId, jdbcType=VARCHAR},
+            #{item.ruleId, jdbcType=BIGINT},
+            #{item.conditionName, jdbcType=VARCHAR},
+            #{item.conditionValue, jdbcType=VARCHAR},
+            #{item.createUser, jdbcType=BIGINT},
+            #{item.createTime, jdbcType=BIGINT},
+            #{item.isActive, jdbcType=TINYINT}
+            )
+        </foreach>
+    </insert>
+    <select id="selectSysAppVosByBaseId" parameterType="java.lang.Integer"
+            resultType="com.byd.auth.manage.facade.storage.entity.vo.BaseAuthVo">
+        select
+        t2.id as appId,
+        t2.appName
+        from
+        sys_app_base_mapping t1
+        left join sys_app t2
+        on t1.app_id = t2.id
+        where t1.base_id = #{baseId, jdbcType=INTEGER}
+    </select>
+</mapper>

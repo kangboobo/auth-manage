@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byd.auth.manage.facade.storage.mapper.SysRoleMapper">
+
+    <insert id="insertSysRole">
+        insert into sys_role (
+        id,
+        app_id,
+        base_id_str,
+        role_name,
+        role_key,
+        role_sort,
+        data_scope,
+        menu_check_strictly,
+        dept_check_strictly,
+        status,
+        menu_ids,
+        dept_ids
+        ) values
+        (
+        #{sysRole.id, jdbcType=BIGINT},
+        #{sysRole.appId, jdbcType=BIGINT},
+        #{sysRole.baseIdStr, jdbcType=VARCHAR},
+        #{sysRole.roleName, jdbcType=VARCHAR},
+        #{sysRole.roleKey, jdbcType=VARCHAR},
+        #{sysRole.roleSort, jdbcType=INTEGER},
+        #{sysRole.dataScope, jdbcType=VARCHAR},
+        #{sysRole.menuCheckStrictly, jdbcType=VARCHAR},
+        #{sysRole.deptCheckStrictly, jdbcType=BIGINT},
+        #{sysRole.status, jdbcType=VARCHAR},
+        #{sysRole.menuIds, jdbcType=VARCHAR},
+        #{sysRole.deptIds, jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>
