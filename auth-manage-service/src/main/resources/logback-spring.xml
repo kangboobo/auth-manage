@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true">
+
+    <contextName>fast-engine-platform</contextName>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <include resource="logback-basic.xml"/>
+
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="info"/>
+        <appender-ref ref="error"/>
+    </root>
+
+    <logger name="cn.coolcollege.fast.aspect" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="monitorInfo"/>
+    </logger>
+</configuration>
