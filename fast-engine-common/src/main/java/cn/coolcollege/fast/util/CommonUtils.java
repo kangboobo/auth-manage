@@ -2,7 +2,6 @@ package cn.coolcollege.fast.util;
 
 import cn.coolcollege.fast.constants.Constants;
 import cn.coolcollege.fast.dto.EsBaseResourceDo;
-import cn.coolcollege.fast.entity.UserResourceDo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.serializer.SerializeConfig;

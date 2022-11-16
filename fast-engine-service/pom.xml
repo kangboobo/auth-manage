@@ -98,45 +98,15 @@
             </properties>
         </profile>
         <profile>
-            <id>test1</id>
+            <id>test</id>
             <properties>
-                <profileActive>test1</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>hd</id>
-            <properties>
-                <profileActive>hd</profileActive>
+                <profileActive>test</profileActive>
             </properties>
         </profile>
         <profile>
             <id>online</id>
             <properties>
                 <profileActive>online</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>blue</id>
-            <properties>
-                <profileActive>blue</profileActive>
-            </properties>
-        </profile>
-         <profile>
-            <id>TT</id>
-            <properties>
-                <profileActive>TT</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>hzpa</id>
-            <properties>
-                <profileActive>hzpa</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>jth</id>
-            <properties>
-                <profileActive>jth</profileActive>
             </properties>
         </profile>
     </profiles>

@@ -19,6 +19,8 @@ public class AuthManageErrConstant {
 
     public static final ErrorContext NAME_DUPLICATE = new ErrorContext( 40007, "name duplicate");
 
+    public static final ErrorContext CALL_USER_API_FAILED = new ErrorContext( 40008, "调用用户中心接口失败");
+
 //    public static final ErrorContext USER_ID_PARAM_ERROR = new ErrorContext("auto_dispatch.44452", "create_id or update_id error");
 //
 //    public static final ErrorContext USER_CENTER_AUTH_DEPT_ERROR =

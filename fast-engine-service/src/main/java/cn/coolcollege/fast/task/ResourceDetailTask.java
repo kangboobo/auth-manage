@@ -2,8 +2,6 @@ package cn.coolcollege.fast.task;
 
 import cn.coolcollege.fast.SpringContextUtil;
 import cn.coolcollege.fast.constants.Constants;
-import cn.coolcollege.fast.entity.Resource;
-import cn.coolcollege.fast.entity.UserResourceDo;
 import cn.coolcollege.fast.task.msg.ResourceDetailMsg;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
