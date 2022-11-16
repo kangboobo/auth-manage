@@ -1,4 +1,4 @@
-package com.byd.auth.manage.common.converter;
+package com.byd.auth.manage.service.converter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.PropertyNamingStrategy;

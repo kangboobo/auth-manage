@@ -1,6 +1,6 @@
-package com.byd.auth.manage.common.controller;
+package com.byd.auth.manage.service.controller;
 
-import com.byd.auth.manage.common.authService.ISysUserService;
+import com.byd.auth.manage.service.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

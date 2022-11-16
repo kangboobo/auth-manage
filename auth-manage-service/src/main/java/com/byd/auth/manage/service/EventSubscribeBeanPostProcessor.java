@@ -1,4 +1,4 @@
-package com.byd.auth.manage.common;
+package com.byd.auth.manage.service;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;

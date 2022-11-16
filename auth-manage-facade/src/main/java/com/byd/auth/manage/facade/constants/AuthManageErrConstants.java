@@ -1,4 +1,4 @@
-package com.byd.auth.manage.common.constants;
+package com.byd.auth.manage.dao.constants;
 
 
 import net.coolcollege.platform.util.exception.ErrMsg;

@@ -1,6 +1,6 @@
-package com.byd.auth.manage.common.controller;
+package com.byd.auth.manage.service.controller;
 
-import com.byd.auth.manage.common.storage.entity.vo.SysBaseVo;
+import com.byd.auth.manage.dao.entity.vo.SysBaseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.byd.auth.manage.common.authService.ISysBaseService;
+import com.byd.auth.manage.service.service.ISysBaseService;
 
 /**
  * @author baibin

@@ -1,7 +1,7 @@
-package com.byd.auth.manage.common.controller;
+package com.byd.auth.manage.service.controller;
 
-import com.byd.auth.manage.common.authService.ISysAppService;
-import com.byd.auth.manage.common.storage.entity.dao.SysApp;
+import com.byd.auth.manage.service.service.ISysAppService;
+import com.byd.auth.manage.dao.entity.dao.SysApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.byd.auth.manage.common.http;
+package com.byd.auth.manage.service.http;
 
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;

@@ -17,9 +17,4 @@
         <appender-ref ref="info"/>
         <appender-ref ref="error"/>
     </root>
-
-    <logger name="cn.coolcollege.fast.aspect" additivity="false">
-        <appender-ref ref="console"/>
-        <appender-ref ref="monitorInfo"/>
-    </logger>
 </configuration>

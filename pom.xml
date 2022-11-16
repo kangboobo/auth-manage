@@ -17,6 +17,7 @@
     <name>auth-manage</name>
     <modules>
         <module>auth-manage-common</module>
+        <module>auth-manage-dao</module>
         <module>auth-manage-service</module>
         <module>auth-manage-facade</module>
     </modules>
@@ -31,9 +32,8 @@
             **/constants/*,
             **/config/*,
             **/aspect/*,
-            **/dto/*,
             **/model/*,
-            **/storage/*,
+            **/dao/*,
             **/entity/**/*,
             **/handler/*,
             **/event/*
@@ -102,6 +102,26 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore-nio</artifactId>
                 <version>4.4.9</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>18.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.11</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.56</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

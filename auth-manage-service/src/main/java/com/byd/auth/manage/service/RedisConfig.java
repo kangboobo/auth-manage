@@ -1,4 +1,4 @@
-package com.byd.auth.manage.common;
+package com.byd.auth.manage.service;
 
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.byd.auth.manage.common;
+package com.byd.auth.manage.service;
 
 import com.google.common.eventbus.EventBus;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +10,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @author pk
  */
 @SpringBootApplication
-@MapperScan(basePackages = {"cn.coolcollege.fast.storage"})
+@MapperScan(basePackages = {"com.byd.auth.manage.dao"})
 public class AuthManageApplication {
 
     public static void main(String[] args) {
