@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.byd.auth.manage.facade.storage.mapper.SysMenuMapper">
+<mapper namespace="com.byd.auth.manage.common.storage.mapper.SysMenuMapper">
 
-    <resultMap id="SysMenuResult" type="com.byd.auth.manage.facade.storage.entity.dao.SysMenu">
+    <resultMap id="SysMenuResult" type="com.byd.auth.manage.common.storage.entity.dao.SysMenu">
         <!--        <id     property="menuId"         column="menu_id"        />-->
         <!--        <result property="menuName"       column="menu_name"      />-->
         <!--        <result property="parentName"     column="parent_name"    />-->
