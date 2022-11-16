@@ -125,8 +125,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
                     throw new IllegalArgumentException();
                 }
                 // 新增角色-菜单关联关系
-                if (CollectionUtils.isNotEmpty(sysRoleVo.getMenuIds())) {
-                    addRoleMenuList(sysRoleVo.getMenuIds(), roleId);
+                if (CollectionUtils.isNotEmpty(sysRoleVo.getSysMenus())) {
+                    addRoleMenuList(sysRoleVo.getSysMenus(), roleId);
                 }
             } else {
                 // 编辑角色
@@ -136,8 +136,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
                 // 删除该角色和菜单的关联关系
                 deleteRoleMenuMappingByRoleId(sysRoleVo.getId());
                 // 再新增角色和菜单的关联关系
-                if (CollectionUtils.isNotEmpty(sysRoleVo.getMenuIds())) {
-                    addRoleMenuList(sysRoleVo.getMenuIds(), sysRoleVo.getId());
+                if (CollectionUtils.isNotEmpty(sysRoleVo.getSysMenus())) {
+                    addRoleMenuList(sysRoleVo.getSysMenus(), sysRoleVo.getId());
                 }
             }
         } catch (Exception e) {
@@ -197,8 +197,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
         sysRole.setMenuCheckStrictly(sysRoleVo.isMenuCheckStrictly());
         sysRole.setStatus(sysRoleVo.getStatus());
         sysRole.setFlag(sysRoleVo.isFlag());
-        sysRole.setMenuIds(sysRoleVo.getMenuIds());
-        sysRole.setDeptIds(sysRoleVo.getDeptIds());
         sysRole.setPermissions(sysRoleVo.getPermissions());
         sysRole.setRemark(sysRoleVo.getRemark());
         if (Objects.nonNull(sysRoleVo.getSysApp())) {
@@ -225,15 +223,14 @@ public class SysRoleServiceImpl implements ISysRoleService {
         sysRoleVo.setMenuCheckStrictly(sysRole.isMenuCheckStrictly());
         sysRoleVo.setStatus(sysRole.getStatus());
         sysRoleVo.setFlag(sysRole.isFlag());
-        sysRoleVo.setMenuIds(sysRole.getMenuIds());
-        sysRoleVo.setDeptIds(sysRole.getDeptIds());
         sysRoleVo.setPermissions(sysRole.getPermissions());
         sysRoleVo.setRemark(sysRole.getRemark());
         return sysRoleVo;
     }
 
-    private void addRoleMenuList(List<Long> menuIds, Long roleId) {
+    private void addRoleMenuList(List<BaseAuthVo> sysMenus, Long roleId) {
         // 新增应用-基地-角色关联关系
+        List<Long> menuIds = sysMenus.stream().map(BaseAuthVo::getId).collect(Collectors.toList());
         List<SysRoleMenu> roleMenuList = Lists.newArrayList();
         menuIds.forEach(menuId -> {
             SysRoleMenu roleMenu = new SysRoleMenu();

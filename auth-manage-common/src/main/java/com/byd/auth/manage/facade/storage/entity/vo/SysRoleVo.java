@@ -21,6 +21,9 @@ public class SysRoleVo extends SysRole {
     @JSONField(name = "sys_bases")
     private List<BaseAuthVo> sysBases;
 
+    @JSONField(name = "sys_menus")
+    private List<BaseAuthVo> sysMenus;
+
     public BaseAuthVo getSysApp() {
         return sysApp;
     }
@@ -35,5 +38,13 @@ public class SysRoleVo extends SysRole {
 
     public void setSysBases(List<BaseAuthVo> sysBases) {
         this.sysBases = sysBases;
+    }
+
+    public List<BaseAuthVo> getSysMenus() {
+        return sysMenus;
+    }
+
+    public void setSysMenus(List<BaseAuthVo> sysMenus) {
+        this.sysMenus = sysMenus;
     }
 }
