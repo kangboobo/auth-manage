@@ -19,7 +19,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-
 /**
  * @author baibin
  * @version 1.0
@@ -32,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 public class SysBaseController {
 
     @Autowired
-    private ISysBaseService ISysBaseService;
+    private ISysBaseService sysBaseService;
 
     /**
      * 查询base列表(分页)
@@ -49,7 +48,7 @@ public class SysBaseController {
     public Object getPageSysBaseList(@RequestParam(value = "base_name", required = false) String baseName,
                                      @RequestParam(value = "page_number", defaultValue = "1") Integer pageNumber,
                                      @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize) {
-        return ISysBaseService.getSysBasePageList(baseName, pageNumber, pageSize);
+        return sysBaseService.getSysBasePageList(baseName, pageNumber, pageSize);
     }
 
     /**
@@ -60,7 +59,7 @@ public class SysBaseController {
     @ApiImplicitParams({@ApiImplicitParam(name = "base_id", value = "基地id", dataType = DataType.LONG,
         paramType = ParamType.PATH, required = true, defaultValue = "123L")})
     public Object getSysBaseById(@PathVariable(value = "base_id") Long baseId) {
-        return ISysBaseService.getSysBaseById(baseId);
+        return sysBaseService.getSysBaseById(baseId);
     }
 
     /**
@@ -88,7 +87,7 @@ public class SysBaseController {
         @ApiImplicitParam(name = "delete_flag", value = "逻辑删除", dataType = DataType.BYTE, paramType = ParamType.BODY,
             defaultValue = "0")})
     public Object insertOrUpdateSysBase(@RequestBody SysBaseVo sysBaseVo) {
-        return ISysBaseService.insertOrUpdateSysBase(sysBaseVo);
+        return sysBaseService.insertOrUpdateSysBase(sysBaseVo);
     }
 
     /**
@@ -99,6 +98,14 @@ public class SysBaseController {
     @ApiImplicitParams({@ApiImplicitParam(name = "base_id", value = "基地id", dataType = DataType.LONG,
         paramType = ParamType.PATH, required = true, defaultValue = "123L")})
     public Object deleteSysBaseById(@PathVariable(value = "base_id") Long baseId) {
-        return ISysBaseService.deleteSysBaseById(baseId);
+        return sysBaseService.deleteSysBaseById(baseId);
+    }
+
+    @GetMapping(value = "/list")
+    @ApiOperation(value = "查询基地列表", notes = "根据应用id查询基地列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "app_id", value = "应用id", dataType = DataType.LONG,
+        paramType = ParamType.QUERY, defaultValue = "123L")})
+    public Object getSysBaseList(@RequestParam(value = "app_id") Long appId) {
+        return sysBaseService.getSysBaseList(appId);
     }
 }

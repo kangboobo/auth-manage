@@ -241,6 +241,24 @@ public class SysBaseServiceImpl implements ISysBaseService {
     }
 
     /**
+     * 查询基地列表(不分页)
+     *
+     * @param appId
+     * @return
+     */
+    @Override
+    public Object getSysBaseList(Long appId) {
+        List<SysBase> sysBaseList;
+        try {
+            sysBaseList = sysBaseMapper.selectSysBaseListByAppId(appId);
+        } catch (Exception e) {
+            log.error("getSysBaseList err, appId={}", appId, e);
+            return BaseResponse.getFailedResponse(AuthManageErrConstant.OPERATE_DB_ERR);
+        }
+        return BaseResponse.getSuccessResponse(sysBaseList);
+    }
+
+    /**
      * 转化参数 SysBaseVo 转 SysBase
      * 
      * @return

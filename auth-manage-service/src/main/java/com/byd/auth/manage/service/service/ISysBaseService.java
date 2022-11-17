@@ -43,4 +43,10 @@ public interface ISysBaseService {
      * @return
      */
     List<SysBase> selectSysBaseList(List<Long> baseIds);
+
+    /**
+     * 查询基地列表(不分页)
+     * @return
+     */
+    Object getSysBaseList(Long appId);
 }
