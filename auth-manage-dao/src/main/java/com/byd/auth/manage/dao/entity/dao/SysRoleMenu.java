@@ -18,7 +18,6 @@ import javax.persistence.Table;
 public class SysRoleMenu {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /** 角色ID */

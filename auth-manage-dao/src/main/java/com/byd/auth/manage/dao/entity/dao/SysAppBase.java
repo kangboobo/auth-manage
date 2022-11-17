@@ -19,7 +19,6 @@ public class SysAppBase {
      * 应用-基地关联表主键
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

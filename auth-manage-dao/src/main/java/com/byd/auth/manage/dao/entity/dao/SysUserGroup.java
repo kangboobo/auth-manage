@@ -23,7 +23,6 @@ public class SysUserGroup extends BaseEntity{
 
     /** 用户组ID */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

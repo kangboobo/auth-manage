@@ -1,6 +1,7 @@
 package com.byd.auth.manage.dao.entity.dao;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @Table(name = "sys_user_group_user")
 public class SysUserGroupUser {
 
+    @Id
     private Long id;
 
     /**

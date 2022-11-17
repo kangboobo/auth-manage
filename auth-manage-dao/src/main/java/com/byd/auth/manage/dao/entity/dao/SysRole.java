@@ -22,7 +22,6 @@ public class SysRole extends BaseEntity{
 
     /** 角色ID */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

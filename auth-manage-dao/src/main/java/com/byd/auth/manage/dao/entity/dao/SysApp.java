@@ -23,7 +23,6 @@ public class SysApp extends BaseEntity {
      * 应用主键
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

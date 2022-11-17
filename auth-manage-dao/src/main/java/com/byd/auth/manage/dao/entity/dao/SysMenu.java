@@ -28,7 +28,6 @@ public class SysMenu extends BaseEntity {
 
     /** 菜单ID */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

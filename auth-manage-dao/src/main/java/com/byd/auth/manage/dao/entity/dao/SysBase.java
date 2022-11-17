@@ -24,7 +24,6 @@ public class SysBase extends BaseEntity{
      * 基地主键
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
