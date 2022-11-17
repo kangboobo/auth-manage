@@ -49,7 +49,7 @@ public class SysAppController {
      * 查询app列表(分页)
      */
     @GetMapping(value = "/page/list")
-    @ApiOperation(value = "查询应用列表", notes = "根据应用名称查询应用列表，应用名称为空时查询全部应用列表")
+    @ApiOperation(value = "分页查询应用列表", notes = "根据应用名称查询应用列表，应用名称为空时查询全部应用列表(分页)")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "app_name", value = "应用名称", dataType = DataType.STRING, paramType = ParamType.QUERY,
             defaultValue = "xxx"),
@@ -92,8 +92,8 @@ public class SysAppController {
             defaultValue = ""),
         @ApiImplicitParam(name = "remark", value = "备注信息", dataType = DataType.STRING, paramType = ParamType.BODY,
             defaultValue = ""),
-        @ApiImplicitParam(name = "remark", value = "备注信息", dataType = DataType.STRING, paramType = ParamType.BODY,
-            defaultValue = ""),
+        @ApiImplicitParam(name = "delete_flag", value = "逻辑删除", dataType = DataType.BYTE, paramType = ParamType.BODY,
+            defaultValue = "0"),
     })
     public Object insertOrUpdateSysApp(@RequestBody SysApp sysApp) {
         return sysAppService.insertOrUpdateSysApp(sysApp);

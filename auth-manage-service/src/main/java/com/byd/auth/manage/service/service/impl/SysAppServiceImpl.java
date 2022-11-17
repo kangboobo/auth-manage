@@ -71,7 +71,7 @@ public class SysAppServiceImpl implements ISysAppService {
     @Override
     public Object getSysAppPageList(String appName, Integer pageNumber, Integer pageSize) {
         log.info("getSysAppPageList::appName={},pageNumber={},pageSize={}", appName, pageNumber, pageSize);
-        if (pageNumber < Constants.INTEGER_ONE_VALUE || pageSize < Constants.ZERO_VALUE) {
+        if (pageNumber < Constants.INTEGER_ONE_VALUE || pageSize < Constants.INTEGER_ONE_VALUE) {
             log.error("getSysAppPageList params invalid, appName={},pageNumber={},pageSize={}", appName, pageNumber,
                 pageSize);
             return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
@@ -88,7 +88,7 @@ public class SysAppServiceImpl implements ISysAppService {
             return BaseResponse.getFailedResponse(AuthManageErrConstant.RESPONSE_IS_NULL);
         }
         PageHelper.startPage(pageNumber, pageSize);
-        return new PageInfo<>(sysAppList);
+        return BaseResponse.getSuccessResponse(new PageInfo<>(sysAppList));
     }
 
     /**
@@ -196,8 +196,9 @@ public class SysAppServiceImpl implements ISysAppService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleteFlag", Constants.BYTE_ZERO_VALUE);
         if (StringUtils.isNotBlank(appName)) {
-            criteria.andLike("appName", appName);
+            criteria.andLike("appName", "%" + appName + "%");
         }
+        example.orderBy("createTime").desc();
         List<SysApp> sysAppList;
         try {
             sysAppList = sysAppMapper.selectByExample(example);
