@@ -197,7 +197,7 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
         // 逻辑删除角色
         SysUserGroup sysUserGroup = new SysUserGroup();
         sysUserGroup.setId(userGroupId);
-        sysUserGroup.setDeleteFlag(Constants.BYTE_ONE_VALUE);
+        sysUserGroup.setDeleteFlag(Constants.INTEGER_ONE_VALUE);
         sysUserGroup.setUpdateTime(System.currentTimeMillis());
         sysUserGroup.setUpdateUser("");
         try {

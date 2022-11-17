@@ -5,8 +5,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 /**
@@ -36,7 +34,7 @@ public class SysBase extends BaseEntity{
     /**
      * 基地名称
      */
-    @JSONField(name = "base_name'")
+    @JSONField(name = "base_name")
     @Column(name = "base_name")
     private String baseName;
 

@@ -24,7 +24,7 @@ public class BaseEntity implements Serializable {
      */
     @JSONField(name = "delete_flag")
     @Column(name = "delete_flag")
-    private Byte deleteFlag;
+    private Integer deleteFlag;
 
     /**
      * 创建人
@@ -64,11 +64,11 @@ public class BaseEntity implements Serializable {
         this.remark = remark;
     }
 
-    public Byte getDeleteFlag() {
+    public Integer getDeleteFlag() {
         return deleteFlag;
     }
 
-    public void setDeleteFlag(Byte deleteFlag) {
+    public void setDeleteFlag(Integer deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
 

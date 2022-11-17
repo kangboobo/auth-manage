@@ -1,28 +1,32 @@
 package com.byd.auth.manage.service.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-import com.byd.auth.manage.dao.entity.vo.BaseAuthVo;
-import com.byd.auth.manage.dao.entity.vo.SysBaseVo;
-import com.byd.auth.manage.common.constants.Constants;
-import com.byd.auth.manage.common.exception.AuthManageErrConstant;
-import com.byd.auth.manage.dao.entity.dao.SysBase;
-import com.byd.auth.manage.service.service.ISysBaseService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.byd.auth.manage.common.constants.BaseResponse;
+import com.byd.auth.manage.common.constants.Constants;
+import com.byd.auth.manage.common.exception.AuthManageErrConstant;
+import com.byd.auth.manage.dao.entity.dao.SysAppBase;
+import com.byd.auth.manage.dao.entity.dao.SysBase;
+import com.byd.auth.manage.dao.entity.vo.AppBaseDto;
+import com.byd.auth.manage.dao.entity.vo.BaseAuthVo;
+import com.byd.auth.manage.dao.entity.vo.SysBaseVo;
+import com.byd.auth.manage.dao.mapper.SysAppBaseMapper;
+import com.byd.auth.manage.dao.mapper.SysBaseMapper;
+import com.byd.auth.manage.service.service.ISysBaseService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import com.byd.auth.manage.common.constants.BaseResponse;
-import com.byd.auth.manage.dao.entity.dao.SysAppBase;
-import com.byd.auth.manage.dao.mapper.SysAppBaseMapper;
-import com.byd.auth.manage.dao.mapper.SysBaseMapper;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.entity.Example;
 
@@ -62,11 +66,17 @@ public class SysBaseServiceImpl implements ISysBaseService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleteFlag" ,Constants.BYTE_ZERO_VALUE);
         if (StringUtils.isNotBlank(baseName)) {
-            criteria.andLike("baseName", baseName);
+            criteria.andLike("baseName", "%" + baseName + "%");
         }
+        example.orderBy("createTime").desc();
         List<SysBase> sysBaseList;
+        List<AppBaseDto> appBaseDtos = null;
         try {
             sysBaseList = sysBaseMapper.selectByExample(example);
+            if (CollectionUtils.isNotEmpty(sysBaseList)) {
+                List<Long> baseIds = sysBaseList.stream().map(SysBase::getId).collect(Collectors.toList());
+                appBaseDtos = sysAppBaseMappingMapper.selectSysAppBaseVosByBaseIds(baseIds);
+            }
         } catch (Exception e) {
             log.error("getSysBasePageList err", e);
             return BaseResponse.getFailedResponse(AuthManageErrConstant.OPERATE_DB_ERR);
@@ -75,8 +85,29 @@ public class SysBaseServiceImpl implements ISysBaseService {
             log.error("getSysBasePageList response is null");
             return BaseResponse.getFailedResponse(AuthManageErrConstant.RESPONSE_IS_NULL);
         }
+        Map<Long, List<AppBaseDto>> appBaseMap = null;
+        if (CollectionUtils.isNotEmpty(appBaseDtos)) {
+            appBaseMap = appBaseDtos.stream().collect(Collectors.groupingBy(AppBaseDto::getBaseId));
+        }
+        List<SysBaseVo> sysBaseVoList = Lists.newArrayList();
+        Map<Long, List<AppBaseDto>> finalAppBaseMap = appBaseMap;
+        sysBaseList.forEach(sysBase -> {
+            SysBaseVo sysBaseVo = convertParams(sysBase);
+            if (MapUtils.isNotEmpty(finalAppBaseMap) && finalAppBaseMap.containsKey(sysBase.getId())) {
+                List<AppBaseDto> appBaseDtoList = finalAppBaseMap.get(sysBase.getId());
+                List<BaseAuthVo> subAppList = Lists.newArrayList();
+                for (AppBaseDto subDto: appBaseDtoList) {
+                    BaseAuthVo subApp = new BaseAuthVo();
+                    subApp.setId(subDto.getAppId());
+                    subApp.setName(subDto.getAppName());
+                    subAppList.add(subApp);
+                }
+                sysBaseVo.setSysAppList(subAppList);
+            }
+            sysBaseVoList.add(sysBaseVo);
+        });
         PageHelper.startPage(pageNumber, pageSize);
-        return new PageInfo<>(sysBaseList);
+        return BaseResponse.getSuccessResponse(new PageInfo(sysBaseVoList));
     }
 
     /**
@@ -92,10 +123,10 @@ public class SysBaseServiceImpl implements ISysBaseService {
             return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
         }
         SysBase sysBase;
-        List<BaseAuthVo> baseAuthVos;
+        List<AppBaseDto> appBaseDtoList;
         try {
             sysBase = sysBaseMapper.selectByPrimaryKey(id);
-            baseAuthVos = sysAppBaseMappingMapper.selectSysAppVosByBaseId(id);
+            appBaseDtoList = sysAppBaseMappingMapper.selectSysAppBaseVosByBaseIds(Lists.newArrayList(id));
         } catch (Exception e) {
             log.error("getSysBaseById err,id={}", id, e);
             return BaseResponse.getFailedResponse(AuthManageErrConstant.OPERATE_DB_ERR);
@@ -104,10 +135,21 @@ public class SysBaseServiceImpl implements ISysBaseService {
         if (Objects.isNull(sysBase)) {
             return BaseResponse.getFailedResponse(AuthManageErrConstant.RESPONSE_IS_NULL);
         }
-        SysBaseVo resultVo = convertParams(sysBase);
-        resultVo.setAuthAppList(baseAuthVos);
-        log.info("getSysBaseById::resultVos={}", JSON.toJSONString(resultVo));
-        return BaseResponse.getSuccessResponse(resultVo);
+        SysBaseVo baseVo = convertParams(sysBase);
+        List<BaseAuthVo> sysAppList = Lists.newArrayList();
+        if (CollectionUtils.isNotEmpty(appBaseDtoList)) {
+            appBaseDtoList.forEach(appBaseDto -> {
+                if (Objects.equals(appBaseDto.getBaseId(), baseVo.getId())) {
+                    BaseAuthVo sysApp = new BaseAuthVo();
+                    sysApp.setId(appBaseDto.getAppId());
+                    sysApp.setName(appBaseDto.getAppName());
+                    sysAppList.add(sysApp);
+                }
+            });
+        }
+        baseVo.setSysAppList(sysAppList);
+        log.info("getSysBaseById::resultVos={}", JSON.toJSONString(baseVo));
+        return BaseResponse.getSuccessResponse(baseVo);
     }
 
     /**
@@ -119,7 +161,7 @@ public class SysBaseServiceImpl implements ISysBaseService {
     @Override
     public Object insertOrUpdateSysBase(SysBaseVo sysBaseVo) {
         log.info("insertOrUpdateSysBase start, sysApp={}", JSON.toJSONString(sysBaseVo));
-        if (StringUtils.isAnyBlank(sysBaseVo.getBaseName(), sysBaseVo.getFactoryCode())) {
+        if (StringUtils.isAnyBlank(sysBaseVo.getBaseName())) {
             log.error("insertOrUpdateSysBase::params invalid");
             return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
         }
@@ -172,7 +214,7 @@ public class SysBaseServiceImpl implements ISysBaseService {
             // 逻辑删除
             SysBase deleteSysBase = new SysBase();
             deleteSysBase.setId(id);
-            deleteSysBase.setDeleteFlag(Constants.BYTE_ONE_VALUE);
+            deleteSysBase.setDeleteFlag(Constants.INTEGER_ONE_VALUE);
             deleteSysBase.setUpdateUser("");
             deleteSysBase.setUpdateTime(System.currentTimeMillis());
             sysBaseMapper.updateByPrimaryKeySelective(deleteSysBase);
@@ -220,15 +262,18 @@ public class SysBaseServiceImpl implements ISysBaseService {
      * 
      * @return
      */
-    private SysBaseVo convertParams(SysBase SysBase) {
+    private SysBaseVo convertParams(SysBase sysBase) {
         SysBaseVo sysBaseVo = new SysBaseVo();
-        sysBaseVo.setId(SysBase.getId());
-        sysBaseVo.setBaseCode(SysBase.getBaseCode());
-        sysBaseVo.setBaseName(SysBase.getBaseName());
-        sysBaseVo.setFactoryCode(SysBase.getFactoryCode());
-        sysBaseVo.setArea(SysBase.getArea());
-        sysBaseVo.setDescription(SysBase.getDescription());
-        sysBaseVo.setRemark(SysBase.getRemark());
+        sysBaseVo.setId(sysBase.getId());
+        sysBaseVo.setBaseCode(sysBase.getBaseCode());
+        sysBaseVo.setBaseName(sysBase.getBaseName());
+        sysBaseVo.setFactoryCode(sysBase.getFactoryCode());
+        sysBaseVo.setArea(sysBase.getArea());
+        sysBaseVo.setDescription(sysBase.getDescription());
+        sysBaseVo.setRemark(sysBase.getRemark());
+        sysBaseVo.setDeleteFlag(sysBase.getDeleteFlag());
+        sysBaseVo.setCreateTime(sysBase.getCreateTime());
+        sysBaseVo.setUpdateTime(sysBase.getUpdateTime());
         return sysBaseVo;
     }
 

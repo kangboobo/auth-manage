@@ -157,7 +157,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         // 逻辑删除角色
         SysRole sysRole = new SysRole();
         sysRole.setId(roleId);
-        sysRole.setDeleteFlag(Constants.BYTE_ONE_VALUE);
+        sysRole.setDeleteFlag(Constants.INTEGER_ONE_VALUE);
         sysRole.setUpdateTime(System.currentTimeMillis());
         sysRole.setUpdateUser("");
         try {

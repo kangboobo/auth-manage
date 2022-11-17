@@ -64,10 +64,10 @@ public class SysAppController {
     }
 
     /**
-     * 根据单独appId查询
+     * 根据单条appId查询
      */
     @GetMapping(value = "/{app_id:\\d+}/info")
-    @ApiOperation(value = "查询应用信息", notes = "根据应用id查询单条应用信息")
+    @ApiOperation(value = "查询单条应用信息", notes = "根据应用id查询单条应用信息")
     @ApiImplicitParams({@ApiImplicitParam(name = "app_id", value = "应用id", dataType = DataType.LONG,
         paramType = ParamType.PATH, required = true, defaultValue = "123L")})
     public Object getSysAppById(@PathVariable(value = "app_id") Long appId) {
@@ -103,7 +103,7 @@ public class SysAppController {
      * 删除app
      */
     @DeleteMapping(value = "/{app_id:\\d+}/delete")
-    @ApiOperation(value = "删除应用信息", notes = "根据应用id删除应用信息")
+    @ApiOperation(value = "删除单条应用信息", notes = "根据应用id删除单条应用信息")
     @ApiImplicitParams({@ApiImplicitParam(name = "app_id", value = "应用id", dataType = DataType.LONG,
         paramType = ParamType.PATH, required = true, defaultValue = "123L")})
     public Object deleteSysAppById(@PathVariable(value = "app_id") Long appId) {

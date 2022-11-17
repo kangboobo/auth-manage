@@ -167,7 +167,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             // 逻辑删除
             SysMenu deleteSysMenu = new SysMenu();
             deleteSysMenu.setId(menuId);
-            deleteSysMenu.setDeleteFlag(Constants.BYTE_ONE_VALUE);
+            deleteSysMenu.setDeleteFlag(Constants.INTEGER_ONE_VALUE);
             deleteSysMenu.setUpdateUser("");
             deleteSysMenu.setUpdateTime(System.currentTimeMillis());
             menuMapper.updateByPrimaryKeySelective(deleteSysMenu);

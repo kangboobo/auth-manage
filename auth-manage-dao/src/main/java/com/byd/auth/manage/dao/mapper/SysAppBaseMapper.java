@@ -1,7 +1,7 @@
 package com.byd.auth.manage.dao.mapper;
 
 import com.byd.auth.manage.dao.entity.dao.SysAppBase;
-import com.byd.auth.manage.dao.entity.vo.BaseAuthVo;
+import com.byd.auth.manage.dao.entity.vo.AppBaseDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
@@ -19,5 +19,5 @@ public interface SysAppBaseMapper extends Mapper<SysAppBase> {
 
     Integer insertList(@Param("list") List<SysAppBase> list);
 
-    List<BaseAuthVo> selectSysAppVosByBaseId(@Param("baseId") Long baseId);
+    List<AppBaseDto> selectSysAppBaseVosByBaseIds(@Param("list") List<Long> baseIds);
 }

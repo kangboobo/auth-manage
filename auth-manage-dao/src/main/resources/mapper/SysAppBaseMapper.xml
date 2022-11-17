@@ -3,33 +3,30 @@
 <mapper namespace="com.byd.auth.manage.dao.mapper.SysAppBaseMapper">
 
 
-    <insert id="insertList">
-        insert ignore into auto_dispatch_rule_detail(id, app_id, tenant_id, rule_id, condition_name, condition_value,
-        create_user,create_time,is_active)
+    <insert id="insertList" parameterType="java.util.List">
+        insert into sys_app_base (app_id, base_id)
         values
         <foreach collection="list" separator="," item="item">
             (
-            #{item.id, jdbcType=BIGINT},
-            #{item.appId, jdbcType=VARCHAR},
-            #{item.tenantId, jdbcType=VARCHAR},
-            #{item.ruleId, jdbcType=BIGINT},
-            #{item.conditionName, jdbcType=VARCHAR},
-            #{item.conditionValue, jdbcType=VARCHAR},
-            #{item.createUser, jdbcType=BIGINT},
-            #{item.createTime, jdbcType=BIGINT},
-            #{item.isActive, jdbcType=TINYINT}
+            #{item.appId, jdbcType=BIGINT},
+            #{item.baseId, jdbcType=BIGINT}
             )
         </foreach>
     </insert>
-    <select id="selectSysAppVosByBaseId" parameterType="java.lang.Integer"
-            resultType="com.byd.auth.manage.dao.entity.vo.BaseAuthVo">
+
+    <select id="selectSysAppBaseVosByBaseIds" parameterType="java.lang.Long"
+            resultType="com.byd.auth.manage.dao.entity.vo.AppBaseDto">
         select
-        t2.id as appId,
-        t2.appName
+        t1.app_id as appId,
+        t2.app_name as appName,
+        t1.base_id as baseId
         from
-        sys_app_base_mapping t1
+        sys_app_base t1
         left join sys_app t2
         on t1.app_id = t2.id
-        where t1.base_id = #{baseId, jdbcType=INTEGER}
+        where t1.base_id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item, jdbcType=BIGINT}
+        </foreach>
     </select>
 </mapper>

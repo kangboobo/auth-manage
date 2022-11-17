@@ -169,7 +169,7 @@ public class SysAppServiceImpl implements ISysAppService {
             // 逻辑删除
             SysApp deleteSysApp = new SysApp();
             deleteSysApp.setId(id);
-            deleteSysApp.setDeleteFlag(Constants.BYTE_ONE_VALUE);
+            deleteSysApp.setDeleteFlag(Constants.INTEGER_ONE_VALUE);
             deleteSysApp.setUpdateUser("");
             deleteSysApp.setUpdateTime(System.currentTimeMillis());
             sysAppMapper.updateByPrimaryKeySelective(deleteSysApp);

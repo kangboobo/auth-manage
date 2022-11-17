@@ -25,7 +25,7 @@ public class SysBaseVo extends SysBase {
         return sysAppList;
     }
 
-    public void setAuthAppList(List<BaseAuthVo> sysAppList) {
+    public void setSysAppList(List<BaseAuthVo> sysAppList) {
         this.sysAppList = sysAppList;
     }
 }

@@ -29,12 +29,7 @@ public interface Constants {
 
     byte BYTE_ZERO_VALUE = 0;
 
-    byte BYTE_ONE_VALUE = 1;
-
     int ZERO_VALUE = 0;
-
-    int MINUS_ONE = -1;
-
     /**
      * 英文逗号
      */
