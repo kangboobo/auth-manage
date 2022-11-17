@@ -123,7 +123,7 @@ public class SysAppServiceImpl implements ISysAppService {
     @Override
     public Object insertOrUpdateSysApp(SysApp sysApp) {
         log.info("insertOrUpdateSysApp start, sysApp={}", sysApp.toString());
-        if (StringUtils.isAnyBlank(sysApp.getAppName(), sysApp.getFactoryCode())) {
+        if (StringUtils.isAnyBlank(sysApp.getAppName())) {
             log.error("insertOrUpdateSysApp::params invalid");
             return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
         }

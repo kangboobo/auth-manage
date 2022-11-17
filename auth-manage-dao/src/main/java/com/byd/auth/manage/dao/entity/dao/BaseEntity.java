@@ -4,9 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 import javax.persistence.Column;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author baibin
  * @version 1.0
@@ -58,9 +55,6 @@ public class BaseEntity implements Serializable {
     private Long updateTime;
 
 
-    /** 请求参数 */
-    private Map<String, Object> params;
-
 
     public String getRemark() {
         return remark;
@@ -108,19 +102,5 @@ public class BaseEntity implements Serializable {
 
     public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public Map<String, Object> getParams()
-    {
-        if (params == null)
-        {
-            params = new HashMap<>();
-        }
-        return params;
-    }
-
-    public void setParams(Map<String, Object> params)
-    {
-        this.params = params;
     }
 }

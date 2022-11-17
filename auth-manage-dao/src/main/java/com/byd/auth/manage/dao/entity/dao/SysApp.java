@@ -36,7 +36,7 @@ public class SysApp extends BaseEntity {
     /**
      * 应用名称
      */
-    @JSONField(name = "app_name'")
+    @JSONField(name = "app_name")
     @Column(name = "app_name")
     private String appName;
 
