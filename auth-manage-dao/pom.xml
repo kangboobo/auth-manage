@@ -10,13 +10,12 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.byd.auth.manage</groupId>
     <artifactId>auth-manage-dao</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

@@ -10,7 +10,6 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.byd.auth.manage</groupId>
     <artifactId>auth-manage-common</artifactId>
 
     <dependencies>
