@@ -1,11 +1,10 @@
 package com.byd.auth.manage.service.service.impl;
 
-import com.byd.auth.manage.common.exception.ServiceException;
 import com.byd.auth.manage.service.properties.SysUserConfig;
 import com.byd.auth.manage.common.model.BaseResponse;
 import com.byd.auth.manage.common.exception.AuthManageErrConstant;
 import com.alibaba.fastjson.JSONObject;
-import com.byd.auth.manage.service.http.HttpRestTemplateService;
+import com.byd.auth.manage.service.service.HttpRestTemplateService;
 import com.byd.auth.manage.service.service.ISysUserService;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;

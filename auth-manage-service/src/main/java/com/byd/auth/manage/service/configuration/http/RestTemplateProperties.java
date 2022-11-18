@@ -1,11 +1,11 @@
-package com.byd.auth.manage.service.http;
+package com.byd.auth.manage.service.configuration.http;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "http.async")
-public class AsyncRestTemplateProperties {
+@ConfigurationProperties(prefix = "http")
+public class RestTemplateProperties {
     // Determines the timeout in milliseconds until a connection is established.
     private int CONNECT_TIMEOUT;
 
