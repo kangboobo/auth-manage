@@ -75,13 +75,13 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
-    public Object selectMenuIdsByAppIdAndRoleId(Long appId, Long roleId) {
+    public Object selectMenuIdsById(Long appId, Long roleId) {
         log.info("selectMenuIdsById start, appId={}, roleId={}", appId, roleId);
         if(Objects.isNull(appId) || Objects.isNull(roleId)){
             log.error("selectMenuIdsById appId or roleId is null");
             return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
         }
-        List<Long> menuIds = menuMapper.selectMenuIdsByAppIdAndRoleId(appId, roleId);
+        List<Long> menuIds = menuMapper.selectMenuIdsById(appId, roleId);
         return BaseResponse.getSuccessResponse(menuIds);
     }
 
@@ -120,8 +120,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public Object insertOrUpdateSysMenu(SysMenu menu) {
         log.info("insertSysMenu start, menu={}", menu.toString());
         if (StringUtils.isAnyBlank(menu.getMenuName(), menu.getMenuType(), menu.getPath())
-            || Objects.isNull(menu.getAppId()) || Objects.isNull(menu.getParentId())
-            || Objects.isNull(menu.getOrderNum())) {
+            || Objects.isNull(menu.getAppId()) || Objects.isNull(menu.getParentId())) {
             log.error("insertOrUpdateMenu::params invalid, menu={}", menu);
             return BaseResponse.getFailedResponse(AuthManageErrConstant.PARAMS_INVALID);
         }

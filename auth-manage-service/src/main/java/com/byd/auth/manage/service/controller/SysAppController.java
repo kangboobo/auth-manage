@@ -92,7 +92,7 @@ public class SysAppController {
             defaultValue = ""),
         @ApiImplicitParam(name = "remark", value = "备注信息", dataType = DataType.STRING, paramType = ParamType.BODY,
             defaultValue = ""),
-        @ApiImplicitParam(name = "delete_flag", value = "逻辑删除", dataType = DataType.BYTE, paramType = ParamType.BODY,
+        @ApiImplicitParam(name = "delete_flag", value = "逻辑删除", dataType = DataType.INT, paramType = ParamType.BODY,
             defaultValue = "0"),
     })
     public Object insertOrUpdateSysApp(@RequestBody SysApp sysApp) {

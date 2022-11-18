@@ -3,9 +3,6 @@
 <mapper namespace="com.byd.auth.manage.dao.mapper.SysBaseMapper">
 
     <resultMap id="BaseResultMap" type="com.byd.auth.manage.dao.entity.dao.SysBase">
-        <!--
-          WARNING - @mbggenerated
-        -->
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="base_code" property="baseCode" jdbcType="VARCHAR"/>
         <result column="base_name" property="baseName" jdbcType="VARCHAR"/>

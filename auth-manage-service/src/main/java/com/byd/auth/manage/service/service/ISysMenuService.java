@@ -23,7 +23,7 @@ public interface ISysMenuService {
      * @param roleId 角色id
      * @return
      */
-    Object selectMenuIdsByAppIdAndRoleId(Long appId, Long roleId);
+    Object selectMenuIdsById(Long appId, Long roleId);
 
     /**
      * 根据菜单ID查询信息
