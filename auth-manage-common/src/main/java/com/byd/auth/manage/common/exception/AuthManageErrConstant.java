@@ -7,7 +7,9 @@ package com.byd.auth.manage.common.exception;
  */
 public class AuthManageErrConstant {
 
-//    public static final ErrorContext DISPATCH_SERVER_ERROR = new ErrorContext("auto_dispatch.44441", "auto dispatch server error");
+    public static final ErrorContext SERVICE_IS_BUSY = new ErrorContext( 10001, "服务繁忙，请稍后再试");
+
+    public static final ErrorContext METHOD_ARGUMENT_NOT_VALID = new ErrorContext( 10002, "方法参数无效");
 
     public static final ErrorContext PARAMS_INVALID = new ErrorContext( 40001, "params invalid");
 

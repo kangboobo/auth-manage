@@ -1,6 +1,6 @@
 package com.byd.auth.manage.service.service;
 
-import com.byd.auth.manage.common.constants.BaseResponse;
+import com.byd.auth.manage.common.model.BaseResponse;
 
 /**
  * @author zhu.changgen

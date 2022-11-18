@@ -21,6 +21,8 @@ public interface Constants {
 
     String EMPTY_STR = "";
 
+    static final String REQUEST_ID_KEY = "requestId";
+
     String SUCCESS_STR = "success";
 
     int SUCCESS_CODE = 0;

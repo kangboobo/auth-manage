@@ -1,4 +1,4 @@
-package com.byd.auth.manage.service;
+package com.byd.auth.manage.common.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

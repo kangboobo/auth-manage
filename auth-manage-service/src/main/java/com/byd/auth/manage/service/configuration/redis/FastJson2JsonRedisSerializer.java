@@ -1,4 +1,4 @@
-package com.byd.auth.manage.service;
+package com.byd.auth.manage.service.configuration.redis;
 
 import java.nio.charset.Charset;
 
