@@ -1,4 +1,4 @@
-package com.byd.auth.manage.service.http;
+package com.byd.auth.manage.service.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;

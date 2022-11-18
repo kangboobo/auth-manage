@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.byd.auth.manage.common.constants.BaseResponse;
+import com.byd.auth.manage.common.model.BaseResponse;
 import com.byd.auth.manage.common.constants.Constants;
 import com.byd.auth.manage.common.exception.AuthManageErrConstant;
 import com.byd.auth.manage.dao.entity.dao.SysApp;

@@ -39,7 +39,7 @@ public enum ResultCode {
     }
 
 
-    public static ResultCode parseValue(String statusCode) {
+    public static ResultCode parseValue(int statusCode) {
         ResultCode[] var1 = values();
         int var2 = var1.length;
 

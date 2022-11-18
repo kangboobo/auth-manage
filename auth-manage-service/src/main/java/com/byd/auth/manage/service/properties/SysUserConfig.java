@@ -1,4 +1,4 @@
-package com.byd.auth.manage.service.config;
+package com.byd.auth.manage.service.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

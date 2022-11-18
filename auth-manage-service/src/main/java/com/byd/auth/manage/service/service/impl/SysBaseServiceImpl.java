@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.byd.auth.manage.common.constants.BaseResponse;
+import com.byd.auth.manage.common.model.BaseResponse;
 import com.byd.auth.manage.common.constants.Constants;
 import com.byd.auth.manage.common.exception.AuthManageErrConstant;
 import com.byd.auth.manage.dao.entity.dao.SysAppBase;

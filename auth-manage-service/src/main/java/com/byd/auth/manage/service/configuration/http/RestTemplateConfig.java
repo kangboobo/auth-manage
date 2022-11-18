@@ -1,6 +1,6 @@
-package com.byd.auth.manage.service.http;
+package com.byd.auth.manage.service.configuration.http;
 
-import com.byd.auth.manage.service.converter.UserDefinedFastJsonHttpMessageConverter;
+import com.byd.auth.manage.service.aspect.UserDefinedFastJsonHttpMessageConverter;
 import com.google.common.collect.Lists;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;

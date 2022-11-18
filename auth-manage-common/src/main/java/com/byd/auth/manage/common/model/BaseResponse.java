@@ -1,5 +1,6 @@
-package com.byd.auth.manage.common.constants;
+package com.byd.auth.manage.common.model;
 
+import com.byd.auth.manage.common.constants.Constants;
 import com.byd.auth.manage.common.exception.ErrorContext;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

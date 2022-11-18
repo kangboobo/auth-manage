@@ -2,7 +2,7 @@ package com.byd.auth.manage.service.controller;
 
 import com.battcn.boot.swagger.model.DataType;
 import com.battcn.boot.swagger.model.ParamType;
-import com.byd.auth.manage.common.constants.BaseResponse;
+import com.byd.auth.manage.common.model.BaseResponse;
 import com.byd.auth.manage.service.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

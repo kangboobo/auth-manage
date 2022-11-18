@@ -3,7 +3,7 @@ package com.byd.auth.manage.service.service.impl;
 import java.util.List;
 import java.util.Objects;
 
-import com.byd.auth.manage.common.constants.BaseResponse;
+import com.byd.auth.manage.common.model.BaseResponse;
 import com.byd.auth.manage.common.constants.Constants;
 import com.byd.auth.manage.common.exception.AuthManageErrConstant;
 import com.byd.auth.manage.dao.entity.dao.SysMenu;
