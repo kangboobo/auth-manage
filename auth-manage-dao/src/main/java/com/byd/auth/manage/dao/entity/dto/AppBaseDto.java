@@ -1,4 +1,4 @@
-package com.byd.auth.manage.dao.entity.vo;
+package com.byd.auth.manage.dao.entity.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

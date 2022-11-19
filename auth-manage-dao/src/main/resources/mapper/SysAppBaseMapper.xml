@@ -15,7 +15,7 @@
     </insert>
 
     <select id="selectSysAppBaseVosByBaseIds" parameterType="java.lang.Long"
-            resultType="com.byd.auth.manage.dao.entity.vo.AppBaseDto">
+            resultType="com.byd.auth.manage.dao.entity.dto.AppBaseDto">
         select
         t1.app_id as appId,
         t2.app_name as appName,

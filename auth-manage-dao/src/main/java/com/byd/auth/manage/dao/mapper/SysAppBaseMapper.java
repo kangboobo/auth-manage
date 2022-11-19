@@ -1,7 +1,7 @@
 package com.byd.auth.manage.dao.mapper;
 
 import com.byd.auth.manage.dao.entity.dao.SysAppBase;
-import com.byd.auth.manage.dao.entity.vo.AppBaseDto;
+import com.byd.auth.manage.dao.entity.dto.AppBaseDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;

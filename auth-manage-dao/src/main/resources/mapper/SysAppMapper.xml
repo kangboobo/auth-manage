@@ -2,12 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.byd.auth.manage.dao.mapper.SysAppMapper">
 
-    <select id="selectSysAppListByIds" resultType="com.byd.auth.manage.dao.entity.dao.SysApp">
-        select id, app_code, app_name, factory_code
-        from sys_app
-        where id in
-        <foreach collection="ids" item="id" separator=",">
-            #{id,jdbcType=BIGINT}
-        </foreach>)
+    <resultMap id="BaseResultMap" type="com.byd.auth.manage.dao.entity.dao.SysApp">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="app_code" property="appCode" jdbcType="VARCHAR"/>
+        <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+        <result column="factory_code" property="factoryCode" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="selectSysAppListByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select t.*
+        from sys_app t
+        where t.id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item, jdbcType=BIGINT}
+        </foreach>
     </select>
 </mapper>

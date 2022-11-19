@@ -1,6 +1,8 @@
 package com.byd.auth.manage.dao.mapper;
 
 import com.byd.auth.manage.dao.entity.dao.SysRoleMenu;
+import com.byd.auth.manage.dao.entity.dao.SysUserGroupRole;
+import com.byd.auth.manage.dao.entity.dto.RoleMenuDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,13 +18,8 @@ import java.util.List;
  */
 @Repository
 public interface SysRoleMenuMapper extends Mapper<SysRoleMenu> {
-//    /**
-//     * 查询菜单使用数量
-//     *
-//     * @param menuId 菜单ID
-//     * @return 结果
-//     */
-//     int checkMenuExistRole(@Param("menuId") Long menuId);
 
     Integer insertList(@Param("list") List<SysRoleMenu> list);
+
+    List<RoleMenuDto> selectRoleMenuDtoListByRoleIds(@Param("list") List<Long> roleIds);
 }

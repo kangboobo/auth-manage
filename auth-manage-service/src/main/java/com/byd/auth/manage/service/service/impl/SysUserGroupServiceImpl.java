@@ -366,8 +366,7 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
         Set<Long> appIds = sysUserGroupList.stream().map(SysUserGroup::getAppId).collect(Collectors.toSet());
         Set<Long> baseIds = Sets.newHashSet();
         sysUserGroupList.forEach(sysUserGroup -> {
-            if (StringUtils.isNotBlank(sysUserGroup.getBaseIdStr())
-                && sysUserGroup.getBaseIdStr().contains(Constants.COMMA)) {
+            if (StringUtils.isNotBlank(sysUserGroup.getBaseIdStr())) {
                 baseIds.addAll(Arrays.stream(sysUserGroup.getBaseIdStr().split(Constants.COMMA)).map(Long::parseLong)
                     .collect(Collectors.toSet()));
             }

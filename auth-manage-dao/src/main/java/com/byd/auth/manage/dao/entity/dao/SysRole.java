@@ -1,13 +1,16 @@
 package com.byd.auth.manage.dao.entity.dao;
-import com.alibaba.fastjson.annotation.JSONField;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * @author baibin
@@ -28,12 +31,14 @@ public class SysRole extends BaseEntity{
      * 应用Id
      */
     @Column(name = "app_id")
+    @JSONField(name = "app_id")
     private Long appId;
 
     /**
      * 基地id集合
      */
     @Column(name = "base_id_str")
+    @JSONField(name = "base_id_str")
     private String baseIdStr;
 
     /** 角色名称 */
@@ -56,9 +61,6 @@ public class SysRole extends BaseEntity{
     @JSONField(name = "data_scope")
     private String dataScope;
 
-    /** 用户是否存在此角色标识 默认不存在 */
-    @Transient
-    private boolean flag = false;
 
     public SysRole()
     {
@@ -137,16 +139,6 @@ public class SysRole extends BaseEntity{
     public void setDataScope(String dataScope)
     {
         this.dataScope = dataScope;
-    }
-
-    public boolean isFlag()
-    {
-        return flag;
-    }
-
-    public void setFlag(boolean flag)
-    {
-        this.flag = flag;
     }
 
     @Override

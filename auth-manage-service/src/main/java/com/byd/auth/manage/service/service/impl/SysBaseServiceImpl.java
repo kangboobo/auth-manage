@@ -18,7 +18,7 @@ import com.byd.auth.manage.common.constants.Constants;
 import com.byd.auth.manage.common.exception.AuthManageErrConstant;
 import com.byd.auth.manage.dao.entity.dao.SysAppBase;
 import com.byd.auth.manage.dao.entity.dao.SysBase;
-import com.byd.auth.manage.dao.entity.vo.AppBaseDto;
+import com.byd.auth.manage.dao.entity.dto.AppBaseDto;
 import com.byd.auth.manage.dao.entity.vo.BaseAuthVo;
 import com.byd.auth.manage.dao.entity.vo.SysBaseVo;
 import com.byd.auth.manage.dao.mapper.SysAppBaseMapper;

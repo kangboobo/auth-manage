@@ -35,13 +35,14 @@
         #{sysBase.updateTime, jdbcType=BIGINT}
         )
     </insert>
-    <select id="selectSysBaseListByIds" resultType="com.byd.auth.manage.dao.entity.dao.SysBase">
-        select id, base_code, base_name, factory_code, area, description
-        from sys_base
-        where id in
-        <foreach collection="ids" item="id" separator=",">
-            #{id,jdbcType=BIGINT}
-        </foreach>)
+
+    <select id="selectSysBaseListByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select t.*
+        from sys_base t
+        where t.id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item, jdbcType=BIGINT}
+        </foreach>
     </select>
 
     <select id="selectSysBaseListByAppId" parameterType="java.lang.Long" resultMap="BaseResultMap">

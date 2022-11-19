@@ -16,5 +16,5 @@ import java.util.List;
 @Repository
 public interface SysAppMapper extends Mapper<SysApp> {
 
-    List<SysApp> selectSysAppListByIds(@Param("ids") List<Long> ids);
+    List<SysApp> selectSysAppListByIds(@Param("list") List<Long> appIds);
 }

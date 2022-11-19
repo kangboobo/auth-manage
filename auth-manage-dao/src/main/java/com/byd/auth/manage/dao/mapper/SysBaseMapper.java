@@ -18,7 +18,7 @@ public interface SysBaseMapper extends Mapper<SysBase> {
 
     Integer insertSysBase(@Param("sysBase") SysBase sysBase);
 
-    List<SysBase> selectSysBaseListByIds(@Param("ids") List<Long> ids);
+    List<SysBase> selectSysBaseListByIds(@Param("list") List<Long> baseIds);
 
     List<SysBase> selectSysBaseListByAppId(@Param("appId") Long appId);
 }
