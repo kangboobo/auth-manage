@@ -57,7 +57,7 @@ public class SysRoleController {
     }
 
     /**
-     * 新建｜修改菜单
+     * 新建｜修改角色
      *
      * @return
      */

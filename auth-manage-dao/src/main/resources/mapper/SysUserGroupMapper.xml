@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.byd.auth.manage.dao.mapper.SysUserGroupMapper">
+    
+    
 
-    <insert id="insertSysUserGroup"></insert>
+    <insert id="insertSysUserGroup" keyProperty="userGroup.id" useGeneratedKeys="true"
+            parameterType="com.byd.auth.manage.dao.entity.dao.SysUserGroup">
+        insert into sys_user_group (app_id, base_id_str, user_group_name,
+        remark, create_user,create_time, update_user,update_time ) values
+        (
+        #{userGroup.appId, jdbcType=BIGINT},
+        #{userGroup.baseIdStr, jdbcType=VARCHAR},
+        #{userGroup.userGroupName, jdbcType=VARCHAR},
+        #{userGroup.remark, jdbcType=VARCHAR},
+        #{userGroup.createUser, jdbcType=VARCHAR},
+        #{userGroup.createTime, jdbcType=BIGINT},
+        #{userGroup.updateUser, jdbcType=VARCHAR},
+        #{userGroup.updateTime, jdbcType=BIGINT}
+        )
+    </insert>
 </mapper>

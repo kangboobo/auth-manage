@@ -7,18 +7,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.byd.auth.manage.common.model.BaseResponse;
-import com.byd.auth.manage.common.constants.Constants;
-import com.byd.auth.manage.common.exception.AuthManageErrConstant;
-import com.byd.auth.manage.dao.entity.vo.BaseAuthVo;
-import com.byd.auth.manage.dao.entity.vo.SysUserGroupVo;
-import com.byd.auth.manage.dao.mapper.SysUserGroupMapper;
-import com.byd.auth.manage.service.service.ISysAppService;
-import com.byd.auth.manage.service.service.ISysBaseService;
-import com.byd.auth.manage.service.service.ISysRoleService;
-import com.byd.auth.manage.service.service.ISysUserGroupService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,20 +14,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.byd.auth.manage.common.constants.Constants;
+import com.byd.auth.manage.common.exception.AuthManageErrConstant;
+import com.byd.auth.manage.common.model.BaseResponse;
+import com.byd.auth.manage.dao.entity.dao.SysApp;
+import com.byd.auth.manage.dao.entity.dao.SysBase;
+import com.byd.auth.manage.dao.entity.dao.SysUserGroup;
+import com.byd.auth.manage.dao.entity.dao.SysUserGroupRole;
+import com.byd.auth.manage.dao.entity.dao.SysUserGroupUser;
+import com.byd.auth.manage.dao.entity.dto.UserGroupRoleDto;
+import com.byd.auth.manage.dao.entity.vo.BaseAuthVo;
+import com.byd.auth.manage.dao.entity.vo.SysUserGroupUserVo;
+import com.byd.auth.manage.dao.entity.vo.SysUserGroupVo;
+import com.byd.auth.manage.dao.entity.vo.SysUserVo;
+import com.byd.auth.manage.dao.mapper.SysUserGroupMapper;
+import com.byd.auth.manage.dao.mapper.SysUserGroupRoleMapper;
+import com.byd.auth.manage.dao.mapper.SysUserGroupUserMapper;
+import com.byd.auth.manage.service.service.ISysAppService;
+import com.byd.auth.manage.service.service.ISysBaseService;
+import com.byd.auth.manage.service.service.ISysRoleService;
+import com.byd.auth.manage.service.service.ISysUserGroupService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import com.byd.auth.manage.dao.entity.dao.SysApp;
-import com.byd.auth.manage.dao.entity.dao.SysBase;
-import com.byd.auth.manage.dao.entity.dao.SysRole;
-import com.byd.auth.manage.dao.entity.dao.SysUserGroup;
-import com.byd.auth.manage.dao.entity.dao.SysUserGroupRole;
-import com.byd.auth.manage.dao.entity.dao.SysUserGroupUser;
-import com.byd.auth.manage.dao.entity.vo.SysUserGroupUserVo;
-import com.byd.auth.manage.dao.entity.vo.SysUserVo;
-import com.byd.auth.manage.dao.mapper.SysUserGroupRoleMapper;
-import com.byd.auth.manage.dao.mapper.SysUserGroupUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.entity.Example;
 
@@ -103,7 +103,7 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
      * @return
      */
     @Override
-    public Object getPageSysUserGroupList(Integer pageNumber, Integer pageSize, String userGroupName) {
+    public Object getPageSysUserGroupList(String userGroupName, Integer pageNumber, Integer pageSize) {
         log.info("getPageSysUserGroupList start, pageNumber={}, pageSize={}, userGroupName={}", pageNumber, pageSize,
             userGroupName);
         if (pageNumber < Constants.INTEGER_ONE_VALUE || pageSize < Constants.INTEGER_ONE_VALUE) {
@@ -114,8 +114,9 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleteFlag", Constants.BYTE_ZERO_VALUE);
         if (StringUtils.isNotBlank(userGroupName)) {
-            criteria.andLike("userGroupName", userGroupName);
+            criteria.andLike("userGroupName", "%" + userGroupName + "%");
         }
+        example.orderBy("createTime").desc();
         List<SysUserGroup> sysUserGroupList = sysUserGroupMapper.selectByExample(example);
         if (CollectionUtils.isEmpty(sysUserGroupList)) {
             log.info("getPageSysUserGroupList::query sysUserGroupList is empty");
@@ -257,7 +258,7 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
      * @return
      */
     @Override
-    public Object getUserGroupUserById(Long userGroupId) {
+    public Object getSysUsersById(Long userGroupId) {
         log.info("getUserGroupUserById start, userGroupId={}", userGroupId);
         if (Objects.isNull(userGroupId)) {
             log.error("getUserGroupUserById params invalid");
@@ -265,7 +266,7 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
         }
         // 根据userGroupId查询其对应的所有用户id
         List<SysUserGroupUser> userGroupUserList;
-        SysUserGroupUserVo userGroupUserVo = null;
+        SysUserGroupUserVo userGroupUserVo;
         try {
             Example example = new Example(SysUserGroupUser.class);
             example.createCriteria().andEqualTo("userGroupId", userGroupId);
@@ -385,20 +386,15 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
                 sysBases.stream().collect(Collectors.toMap(SysBase::getId, SysBase::getBaseName, (k1, k2) -> k1));
         }
         // 根据userGroupIds查询userGroupId和roleId对应关系
-        List<SysUserGroupRole> userGroupRoles = userGroupRoleMapper.selectUserGroupRoles(userGroupIds);
-        Map<Long, List<SysUserGroupRole>> userGroupRoleMap = null;
-        Map<Long, String> roleIdNameMap = null;
-        if (CollectionUtils.isNotEmpty(userGroupRoles)) {
-            userGroupRoleMap = userGroupRoles.stream().collect(Collectors.groupingBy(SysUserGroupRole::getUserGroupId));
-            Set<Long> roleIds = userGroupRoles.stream().map(SysUserGroupRole::getRoleId).collect(Collectors.toSet());
-            List<SysRole> sysRoleList = sysRoleService.selectSysRoleList(Lists.newArrayList(roleIds));
-            roleIdNameMap =
-                sysRoleList.stream().collect(Collectors.toMap(SysRole::getId, SysRole::getRoleName, (k1, k2) -> k1));
+        List<UserGroupRoleDto> userGroupRoleDtoList = userGroupRoleMapper.selectUserGroupRoleDtoList(userGroupIds);
+        Map<Long, List<UserGroupRoleDto>> userGroupRoleMap = null;
+        if (CollectionUtils.isNotEmpty(userGroupRoleDtoList)) {
+            userGroupRoleMap =
+                userGroupRoleDtoList.stream().collect(Collectors.groupingBy(UserGroupRoleDto::getUserGroupId));
         }
         Map<Long, String> finalAppIdNameMap = appIdNameMap;
         Map<Long, String> finalBaseIdNameMap = baseIdNameMap;
-        Map<Long, List<SysUserGroupRole>> finalUserGroupRoleMap = userGroupRoleMap;
-        Map<Long, String> finalRoleIdNameMap = roleIdNameMap;
+        Map<Long, List<UserGroupRoleDto>> finalUserGroupRoleMap = userGroupRoleMap;
         sysUserGroupList.forEach(userGroup -> {
             SysUserGroupVo userGroupVo = convertParamsToSysUserGroupVo(userGroup);
             if (MapUtils.isNotEmpty(finalAppIdNameMap)) {
@@ -421,12 +417,12 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
                 userGroupVo.setSysBases(sysBaseAuths);
             }
             if (MapUtils.isNotEmpty(finalUserGroupRoleMap) && finalUserGroupRoleMap.containsKey(userGroup.getId())) {
-                List<SysUserGroupRole> subUserGroupRoles = finalUserGroupRoleMap.get(userGroup.getId());
+                List<UserGroupRoleDto> subUserGroupRoles = finalUserGroupRoleMap.get(userGroup.getId());
                 List<BaseAuthVo> roleAuths = Lists.newArrayList();
                 subUserGroupRoles.forEach(subRole -> {
                     BaseAuthVo roleAuth = new BaseAuthVo();
                     roleAuth.setId(subRole.getRoleId());
-                    roleAuth.setName(finalRoleIdNameMap.getOrDefault(subRole.getRoleId(), Constants.EMPTY_STR));
+                    roleAuth.setName(subRole.getRoleName());
                     roleAuths.add(roleAuth);
                 });
                 userGroupVo.setSysRoles(roleAuths);

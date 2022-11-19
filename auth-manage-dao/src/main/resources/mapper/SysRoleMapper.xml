@@ -4,7 +4,6 @@
 
     <insert id="insertSysRole" keyProperty="sysRole.id" useGeneratedKeys="true"
             parameterType="com.byd.auth.manage.dao.entity.dao.SysRole">
-
         insert into sys_role (app_id, base_id_str, role_name, role_key, role_sort, data_scope,
         remark, create_user,create_time, update_user,update_time ) values
         (

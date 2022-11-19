@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * @date 2022/11/14 14:29
  * @description 用户组实体
  */
-@Table(name = "sys_use_group")
+@Table(name = "sys_user_group")
 public class SysUserGroup extends BaseEntity{
 
     private static final long serialVersionUID = 1L;

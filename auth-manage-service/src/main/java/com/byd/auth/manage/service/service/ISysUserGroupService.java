@@ -21,12 +21,12 @@ public interface ISysUserGroupService {
 
     /**
      * 分页查询用户组
+     * @param userGroupName
      * @param pageNumber
      * @param pageSize
-     * @param userGroupName
      * @return
      */
-    Object getPageSysUserGroupList(Integer pageNumber, Integer pageSize, String userGroupName);
+    Object getPageSysUserGroupList(String userGroupName,Integer pageNumber, Integer pageSize);
 
     /**
      * 增加｜修改用户组
@@ -52,5 +52,5 @@ public interface ISysUserGroupService {
      * 根据用户组id查询对应的用户组和用户信息
      * @return
      */
-    Object getUserGroupUserById(Long userGroupId);
+    Object getSysUsersById(Long userGroupId);
 }

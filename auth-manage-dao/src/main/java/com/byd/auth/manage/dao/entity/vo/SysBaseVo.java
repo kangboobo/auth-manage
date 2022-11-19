@@ -18,14 +18,14 @@ public class SysBaseVo extends SysBase {
     /**
      * 应用集合
      */
-    @JSONField(name = "sys_app_list")
-    List<BaseAuthVo> sysAppList;
+    @JSONField(name = "sys_apps")
+    List<BaseAuthVo> sysApps;
 
-    public List<BaseAuthVo> getSysAppList() {
-        return sysAppList;
+    public List<BaseAuthVo> getSysApps() {
+        return sysApps;
     }
 
-    public void setSysAppList(List<BaseAuthVo> sysAppList) {
-        this.sysAppList = sysAppList;
+    public void setSysApps(List<BaseAuthVo> sysApps) {
+        this.sysApps = sysApps;
     }
 }

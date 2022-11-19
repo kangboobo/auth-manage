@@ -102,7 +102,7 @@ public class SysBaseServiceImpl implements ISysBaseService {
                     subApp.setName(subDto.getAppName());
                     subAppList.add(subApp);
                 }
-                sysBaseVo.setSysAppList(subAppList);
+                sysBaseVo.setSysApps(subAppList);
             }
             sysBaseVoList.add(sysBaseVo);
         });
@@ -147,7 +147,7 @@ public class SysBaseServiceImpl implements ISysBaseService {
                 }
             });
         }
-        baseVo.setSysAppList(sysAppList);
+        baseVo.setSysApps(sysAppList);
         log.info("getSysBaseById::resultVos={}", JSON.toJSONString(baseVo));
         return BaseResponse.getSuccessResponse(baseVo);
     }
@@ -178,7 +178,7 @@ public class SysBaseServiceImpl implements ISysBaseService {
                     throw new IllegalArgumentException();
                 }
                 // 新增基地和应用的绑定关系
-                insertAppBaseMappingList(sysBaseVo.getSysAppList(), baseId);
+                insertAppBaseMappingList(sysBaseVo.getSysApps(), baseId);
             } else {
                 // 编辑基地
                 sysBase.setUpdateUser("");
@@ -189,7 +189,7 @@ public class SysBaseServiceImpl implements ISysBaseService {
                 deleteExample.createCriteria().andEqualTo("baseId", sysBase.getId());
                 sysAppBaseMappingMapper.deleteByExample(deleteExample);
                 // 增加此基地此次修改的应用
-                insertAppBaseMappingList(sysBaseVo.getSysAppList(), sysBase.getId());
+                insertAppBaseMappingList(sysBaseVo.getSysApps(), sysBase.getId());
             }
         } catch (Exception e) {
             log.error("insertOrUpdateSysBase err, sysApp={}", sysBaseVo, e);

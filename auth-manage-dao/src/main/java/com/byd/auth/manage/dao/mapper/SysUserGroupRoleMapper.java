@@ -3,6 +3,7 @@ package com.byd.auth.manage.dao.mapper;
 import java.util.List;
 
 import com.byd.auth.manage.dao.entity.dao.SysUserGroupRole;
+import com.byd.auth.manage.dao.entity.dto.UserGroupRoleDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
@@ -18,5 +19,5 @@ public interface SysUserGroupRoleMapper extends Mapper<SysUserGroupRole> {
 
     Integer insertList(@Param("list") List<SysUserGroupRole> list);
 
-    List<SysUserGroupRole> selectUserGroupRoles(@Param("list") List<Long> userGroupIds);
+    List<UserGroupRoleDto> selectUserGroupRoleDtoList(@Param("list") List<Long> userGroupIds);
 }
