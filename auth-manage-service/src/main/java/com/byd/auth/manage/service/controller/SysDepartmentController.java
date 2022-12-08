@@ -3,6 +3,7 @@ package com.byd.auth.manage.service.controller;
 import com.battcn.boot.swagger.model.DataType;
 import com.battcn.boot.swagger.model.ParamType;
 import com.byd.auth.manage.common.model.BaseResponse;
+import com.byd.auth.manage.service.employee.IDepartmentService;
 import com.byd.auth.manage.service.service.ISysDepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,17 +27,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysDepartmentController {
 
     @Autowired
-    private ISysDepartmentService sysDepartmentService;
+    private IDepartmentService departmentService;
 
     @GetMapping(value = "/list")
     @ApiOperation(value = "查询部门列表", notes = "递归返回树形结果")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "department_id", value = "部门id", dataType = DataType.STRING, paramType = ParamType.QUERY, defaultValue = "xxx"),
+            @ApiImplicitParam(name = "department", value = "部门名称", dataType = DataType.STRING, paramType = ParamType.QUERY, defaultValue = ""),
             @ApiImplicitParam(name = "page_number", value = "分页参数", dataType = DataType.INT, paramType = ParamType.QUERY, defaultValue = "1"),
             @ApiImplicitParam(name = "page_size", value = "分页参数", dataType = DataType.INT, paramType = ParamType.QUERY, defaultValue = "10")})
-    public BaseResponse getDepartmentList(@RequestParam(value = "department_id", required = false) String departmentId,
+    public BaseResponse getDepartmentList(@RequestParam(value = "department", required = false) String department,
                                           @RequestParam(value = "page_number", defaultValue = "1") Integer pageNumber,
                                           @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize) {
-        return sysDepartmentService.getDepartmentList(departmentId, pageNumber, pageSize);
+        return departmentService.getDepartmentList();
     }
 }
